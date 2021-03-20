@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+    @apply font-cabin;
+}
+.routerLink {
+    @apply text-white flex items-center group py-4 px-8;
+    .icon {
+        @apply w-4 h-4 mr-2 fill-current text-white;
+    }
+    &:hover {
+        @apply bg-gray-500 text-white;
+    }
+}
+
+
