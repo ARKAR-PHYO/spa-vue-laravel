@@ -1,6 +1,17 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -1845,7 +1856,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _shared_Icon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/Icon */ "./resources/js/admin/shared/Icon.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _shared_Icon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../shared/Icon */ "./resources/js/admin/shared/Icon.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
 //
 //
 //
@@ -1971,7 +1994,202 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Icon: _shared_Icon__WEBPACK_IMPORTED_MODULE_0__.default
+    Icon: _shared_Icon__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  data: function data() {
+    return {
+      data: {
+        tagName: ''
+      },
+      addModal: false,
+      editModal: false,
+      isAdding: false,
+      tags: [],
+      editData: {
+        tagName: ''
+      },
+      index: -1,
+      showDeleteModal: false,
+      deleteItem: {},
+      deletingIndex: -1
+    };
+  },
+  methods: {
+    addTag: function addTag() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.data.tagName.trim() == '')) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", _this.error('Tag Name Is Require'));
+
+              case 2:
+                _context.next = 4;
+                return _this.callApi('post', 'app/create_tag', _this.data);
+
+              case 4:
+                res = _context.sent;
+
+                if (res.status === 201) {
+                  _this.tags.unshift(res.data);
+
+                  _this.success('Tag Has Been Added Successfully');
+
+                  _this.addModal = false;
+                  _this.data.tagName = '';
+                } else {
+                  if (res.status == 422) {
+                    if (res.data.errors.tagName) {
+                      _this.error(res.data.errors.tagName[0]);
+                    }
+                  } else {
+                    _this.error();
+                  }
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    // TAG EDITING MODAL
+    editTag: function editTag() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this2.editData.tagName.trim() == '')) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return", _this2.error('Tag Name Is Require'));
+
+              case 2:
+                _context2.next = 4;
+                return _this2.callApi('post', 'app/edit_tag', _this2.editData);
+
+              case 4:
+                res = _context2.sent;
+
+                if (res.status === 200) {
+                  _this2.tags[_this2.index].tagName = _this2.editData.tagName;
+
+                  _this2.success('Tag Has Been EDITED Successfully');
+
+                  _this2.editModal = false;
+                  _this2.editData.tagName = '';
+                } else {
+                  if (res.status == 422) {
+                    if (res.data.errors.tagName) {
+                      _this2.error(res.data.errors.tagName[0]);
+                    }
+                  } else {
+                    _this2.error();
+                  }
+                }
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    // SHOW EDIT MODAL
+    showEditModal: function showEditModal(tag, index) {
+      var obj = {
+        id: tag.id,
+        tagName: tag.tagName
+      };
+      this.editData = obj;
+      this.editModal = true;
+      this.index = index;
+    },
+    // DELETE TAG
+    showDeletingModal: function showDeletingModal(tag, i) {
+      this.deleteItem = tag;
+      this.deletingIndex = i;
+      this.showDeleteModal = true;
+    },
+    deleteTag: function deleteTag() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this3.callApi('post', 'app/delete_tag', _this3.deleteItem);
+
+              case 2:
+                res = _context3.sent;
+
+                if (res.status === 200) {
+                  _this3.tags.splice(_this3.deletingIndex, 1);
+
+                  _this3.success('TAG HAS BEEN DELETED SUCCESSFULLY');
+                } else {
+                  _this3.error();
+                }
+
+                _this3.showDeleteModal = false;
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    }
+  },
+  created: function created() {
+    var _this4 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _this4.callApi('get', 'app/get_tags');
+
+            case 2:
+              res = _context4.sent;
+
+              if (res.status === 200) {
+                _this4.tags = res.data;
+              } else {
+                _this4.error();
+              }
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
   }
 });
 
@@ -1988,6 +2206,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
 //
 //
 //
@@ -2027,6 +2247,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Icon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Icon */ "./resources/js/admin/shared/Icon.vue");
+//
+//
+//
+//
 //
 //
 //
@@ -2127,20 +2351,27 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
 /* harmony import */ var view_design__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! view-design */ "./node_modules/view-design/dist/iview.js");
 /* harmony import */ var view_design__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(view_design__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var view_design_dist_styles_iview_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! view-design/dist/styles/iview.css */ "./node_modules/view-design/dist/styles/iview.css");
+/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common */ "./resources/js/common.js");
+/* harmony import */ var vue_toastify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-toastify */ "./node_modules/vue-toastify/dist/vue-toastify.umd.min.js");
+/* harmony import */ var vue_toastify__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_toastify__WEBPACK_IMPORTED_MODULE_4__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_3__.default.use((view_design__WEBPACK_IMPORTED_MODULE_1___default()));
-vue__WEBPACK_IMPORTED_MODULE_3__.default.component('mainapp', __webpack_require__(/*! ./admin/shared/mainapp.vue */ "./resources/js/admin/shared/mainapp.vue").default);
-var app = new vue__WEBPACK_IMPORTED_MODULE_3__.default({
+
+
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use((view_design__WEBPACK_IMPORTED_MODULE_1___default()));
+vue__WEBPACK_IMPORTED_MODULE_5__.default.mixin(_common__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vue_toastify__WEBPACK_IMPORTED_MODULE_4___default()));
+vue__WEBPACK_IMPORTED_MODULE_5__.default.component('mainapp', __webpack_require__(/*! ./admin/shared/mainapp.vue */ "./resources/js/admin/shared/mainapp.vue").default);
+var app = new vue__WEBPACK_IMPORTED_MODULE_5__.default({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_0__.default
 });
@@ -2175,6 +2406,97 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/common.js":
+/*!********************************!*\
+  !*** ./resources/js/common.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {};
+  },
+  methods: {
+    callApi: function callApi(method, url, dataObj) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios({
+                  method: method,
+                  url: url,
+                  data: dataObj
+                });
+
+              case 3:
+                return _context.abrupt("return", _context.sent);
+
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](0);
+                return _context.abrupt("return", _context.t0.response);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 6]]);
+      }))();
+    },
+    info: function info(body) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "INFO";
+      this.$vToastify.info({
+        title: title,
+        body: body,
+        icon: '<svg class="w-10 h-10 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.033 16.01c.564-1.789 1.632-3.932 1.821-4.474.273-.787-.211-1.136-1.74.209l-.34-.64c1.744-1.897 5.335-2.326 4.113.613-.763 1.835-1.309 3.074-1.621 4.03-.455 1.393.694.828 1.819-.211.153.25.203.331.356.619-2.498 2.378-5.271 2.588-4.408-.146zm4.742-8.169c-.532.453-1.32.443-1.761-.022-.441-.465-.367-1.208.164-1.661.532-.453 1.32-.442 1.761.022.439.466.367 1.209-.164 1.661z"/></svg>'
+      });
+    },
+    success: function success(body) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "SUCCESS";
+      this.$vToastify.success({
+        title: title,
+        body: body,
+        icon: '<svg class="w-10 h-10 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/></svg>'
+      });
+    },
+    error: function error(body) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "ERROR";
+      this.$vToastify.error({
+        title: title,
+        body: body,
+        icon: '<svg class="w-10 h-10 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.351 6.493c-.08-.801.55-1.493 1.351-1.493s1.431.692 1.351 1.493l-.801 8.01c-.029.282-.266.497-.55.497s-.521-.215-.55-.498l-.801-8.009zm1.351 12.757c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>'
+      });
+    },
+    warning: function warning(body) {
+      var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "WARNING";
+      this.$vToastify.warning({
+        title: title,
+        body: body,
+        icon: '<svg class="w-10 h-10 fill-current xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 1l-12 22h24l-12-22zm-1 8h2v7h-2v-7zm1 11.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>'
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -19727,6 +20049,764 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : 0
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
 
 
 /***/ }),
@@ -66358,344 +67438,430 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex items-center justify-center" }, [
-    _c("div", { staticClass: "w-full" }, [
-      _c("div", { staticClass: "flex items-center space-x-4" }, [
-        _c("h1", [_vm._v("Tags")]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "flex flex-row items-center px-5 py-2 space-x-1 bg-green-300 rounded-sm shadow-md"
-          },
-          [
-            _c("icon", { staticClass: "w-4 h-4", attrs: { name: "plus" } }),
-            _vm._v(" "),
-            _c("p", {}, [_vm._v("Create Tag")])
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "my-6 bg-white rounded shadow-md" }, [
-        _c("table", { staticClass: "w-full table-auto min-w-max" }, [
-          _vm._m(0),
+    _c(
+      "div",
+      { staticClass: "w-full" },
+      [
+        _c("div", { staticClass: "flex items-center space-x-4" }, [
+          _c("h1", [_vm._v("Tags")]),
           _vm._v(" "),
-          _c("tbody", { staticClass: "text-sm font-light text-gray-600" }, [
+          _c(
+            "button",
+            {
+              staticClass:
+                "flex flex-row items-center px-5 py-2 space-x-1 text-white transform bg-blue-400 rounded-md shadow-md focus:outline-none hover:scale-105",
+              on: {
+                click: function($event) {
+                  _vm.addModal = true
+                }
+              }
+            },
+            [
+              _c("icon", {
+                staticClass: "w-4 h-4 fill-current",
+                attrs: { name: "plus" }
+              }),
+              _vm._v(" "),
+              _c("p", {}, [_vm._v("Create Tag")])
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "my-6 bg-white rounded shadow-md" }, [
+          _c("table", { staticClass: "w-full table-auto min-w-max" }, [
+            _vm._m(0),
+            _vm._v(" "),
             _c(
-              "tr",
-              { staticClass: "border-b border-gray-200 hover:bg-gray-100" },
-              [
-                _c(
-                  "td",
-                  { staticClass: "px-6 py-3 text-left whitespace-nowrap" },
-                  [
-                    _c("div", { staticClass: "flex items-center" }, [
-                      _c("div", { staticClass: "mr-2" }, [
+              "tbody",
+              { staticClass: "text-sm font-light text-gray-600" },
+              _vm._l(_vm.tags, function(tag, i) {
+                return _vm.tags.length
+                  ? _c(
+                      "tr",
+                      {
+                        key: i,
+                        staticClass:
+                          "border-b border-gray-200 hover:bg-gray-100"
+                      },
+                      [
                         _c(
-                          "svg",
+                          "td",
                           {
-                            staticStyle: { fill: "#000000" },
-                            attrs: {
-                              xmlns: "http://www.w3.org/2000/svg",
-                              x: "0px",
-                              y: "0px",
-                              width: "24",
-                              height: "24",
-                              viewBox: "0 0 48 48"
-                            }
+                            staticClass: "px-6 py-3 text-left whitespace-nowrap"
                           },
                           [
-                            _c("path", {
-                              attrs: {
-                                fill: "#80deea",
-                                d:
-                                  "M24,34C11.1,34,1,29.6,1,24c0-5.6,10.1-10,23-10c12.9,0,23,4.4,23,10C47,29.6,36.9,34,24,34z M24,16\tc-12.6,0-21,4.1-21,8c0,3.9,8.4,8,21,8s21-4.1,21-8C45,20.1,36.6,16,24,16z"
-                              }
-                            }),
-                            _c("path", {
-                              attrs: {
-                                fill: "#80deea",
-                                d:
-                                  "M15.1,44.6c-1,0-1.8-0.2-2.6-0.7C7.6,41.1,8.9,30.2,15.3,19l0,0c3-5.2,6.7-9.6,10.3-12.4c3.9-3,7.4-3.9,9.8-2.5\tc2.5,1.4,3.4,4.9,2.8,9.8c-0.6,4.6-2.6,10-5.6,15.2c-3,5.2-6.7,9.6-10.3,12.4C19.7,43.5,17.2,44.6,15.1,44.6z M32.9,5.4\tc-1.6,0-3.7,0.9-6,2.7c-3.4,2.7-6.9,6.9-9.8,11.9l0,0c-6.3,10.9-6.9,20.3-3.6,22.2c1.7,1,4.5,0.1,7.6-2.3c3.4-2.7,6.9-6.9,9.8-11.9\tc2.9-5,4.8-10.1,5.4-14.4c0.5-4-0.1-6.8-1.8-7.8C34,5.6,33.5,5.4,32.9,5.4z"
-                              }
-                            }),
-                            _c("path", {
-                              attrs: {
-                                fill: "#80deea",
-                                d:
-                                  "M33,44.6c-5,0-12.2-6.1-17.6-15.6C8.9,17.8,7.6,6.9,12.5,4.1l0,0C17.4,1.3,26.2,7.8,32.7,19\tc3,5.2,5,10.6,5.6,15.2c0.7,4.9-0.3,8.3-2.8,9.8C34.7,44.4,33.9,44.6,33,44.6z M13.5,5.8c-3.3,1.9-2.7,11.3,3.6,22.2\tc6.3,10.9,14.1,16.1,17.4,14.2c1.7-1,2.3-3.8,1.8-7.8c-0.6-4.3-2.5-9.4-5.4-14.4C24.6,9.1,16.8,3.9,13.5,5.8L13.5,5.8z"
-                              }
-                            }),
-                            _c("circle", {
-                              attrs: {
-                                cx: "24",
-                                cy: "24",
-                                r: "4",
-                                fill: "#80deea"
-                              }
-                            })
+                            _c("div", { staticClass: "flex items-center" }, [
+                              _c("span", { staticClass: "font-medium" }, [
+                                _vm._v(_vm._s(tag.id))
+                              ])
+                            ])
                           ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "font-medium" }, [
-                        _vm._v("React Project")
-                      ])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c("td", { staticClass: "px-6 py-3 text-center" }, [
-                  _c(
-                    "div",
-                    { staticClass: "flex justify-center item-center" },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
+                        ),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "px-6 py-3 text-left" }, [
+                          _c("div", { staticClass: "flex items-center" }, [
+                            _c("span", [_vm._v(_vm._s(tag.tagName))])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "px-6 py-3 text-center" }, [
                           _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
+                            "div",
+                            { staticClass: "flex items-center justify-center" },
+                            [_c("p", [_vm._v(_vm._s(tag.created_at))])]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "px-6 py-3 text-center" }, [
+                          _c(
+                            "div",
+                            { staticClass: "flex justify-center item-center" },
                             [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                }
-                              }),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        fill: "none",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "stroke-linecap": "round",
+                                          "stroke-linejoin": "round",
+                                          "stroke-width": "2",
+                                          d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          "stroke-linecap": "round",
+                                          "stroke-linejoin": "round",
+                                          "stroke-width": "2",
+                                          d:
+                                            "M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "tr",
-              {
-                staticClass:
-                  "border-b border-gray-200 bg-gray-50 hover:bg-gray-100"
-              },
-              [
-                _vm._m(3),
-                _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5),
-                _vm._v(" "),
-                _c("td", { staticClass: "px-6 py-3 text-center" }, [
-                  _c(
-                    "div",
-                    { staticClass: "flex justify-center item-center" },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                                }
-                              }),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-4 mr-2 transform hover:text-purple-500 hover:scale-110",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.showEditModal(tag, i)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        fill: "none",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "stroke-linecap": "round",
+                                          "stroke-linejoin": "round",
+                                          "stroke-width": "2",
+                                          d:
+                                            "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              ),
                               _vm._v(" "),
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                }
-                              })
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "w-4 mr-2 transform hover:text-purple-500 hover:scale-110",
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.showDeletingModal(tag, i)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      attrs: {
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        fill: "none",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor"
+                                      }
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          "stroke-linecap": "round",
+                                          "stroke-linejoin": "round",
+                                          "stroke-width": "2",
+                                          d:
+                                            "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ]
+                              )
                             ]
                           )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              attrs: {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 24 24",
-                                stroke: "currentColor"
-                              }
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  "stroke-linecap": "round",
-                                  "stroke-linejoin": "round",
-                                  "stroke-width": "2",
-                                  d:
-                                    "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                }
-                              })
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
+                        ])
+                      ]
+                    )
+                  : _vm._e()
+              }),
+              0
             )
           ])
-        ])
-      ])
-    ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "Modal",
+          {
+            attrs: {
+              title: "Add Tag",
+              closable: false,
+              "mask-closable": false
+            },
+            model: {
+              value: _vm.addModal,
+              callback: function($$v) {
+                _vm.addModal = $$v
+              },
+              expression: "addModal"
+            }
+          },
+          [
+            _c("div", {}, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.data.tagName,
+                    expression: "data.tagName"
+                  }
+                ],
+                staticClass:
+                  "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
+                attrs: {
+                  name: "tagName",
+                  type: "text",
+                  placeholder: "Enter Tag Name"
+                },
+                domProps: { value: _vm.data.tagName },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.data, "tagName", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none",
+                  on: {
+                    click: function($event) {
+                      _vm.addModal = false
+                    }
+                  }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "px-4 py-1 transform bg-green-300 rounded-md focus:outline-none hover:scale-105",
+                  on: { click: _vm.addTag }
+                },
+                [_vm._v("Add Tag")]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "Modal",
+          {
+            attrs: {
+              title: "Edit Tag",
+              closable: false,
+              "mask-closable": false
+            },
+            model: {
+              value: _vm.editModal,
+              callback: function($$v) {
+                _vm.editModal = $$v
+              },
+              expression: "editModal"
+            }
+          },
+          [
+            _c("div", {}, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editData.tagName,
+                    expression: "editData.tagName"
+                  }
+                ],
+                staticClass:
+                  "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
+                attrs: { type: "text", placeholder: "Edit Tag Name" },
+                domProps: { value: _vm.editData.tagName },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.editData, "tagName", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none",
+                  on: {
+                    click: function($event) {
+                      _vm.editModal = false
+                    }
+                  }
+                },
+                [_vm._v("Close")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "px-4 py-1 transform bg-green-300 rounded-md hover:scale-105 focus:outline-none",
+                  on: { click: _vm.editTag }
+                },
+                [_vm._v("Update")]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "Modal",
+          {
+            attrs: { "mask-closable": false, closable: false },
+            model: {
+              value: _vm.showDeleteModal,
+              callback: function($$v) {
+                _vm.showDeleteModal = $$v
+              },
+              expression: "showDeleteModal"
+            }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex items-center justify-center space-x-4 text-lg font-semibold text-red-500",
+                attrs: { slot: "header" },
+                slot: "header"
+              },
+              [
+                _c("icon", {
+                  staticClass: "w-4 h-4 fill-current",
+                  attrs: { name: "info" }
+                }),
+                _vm._v(" "),
+                _c("span", [_vm._v("Delete confirmation")])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticStyle: { "text-align": "center" } }, [
+              _c("p", [_vm._v("Are You Sure Want To Delete This?")])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "flex",
+                attrs: { slot: "footer" },
+                slot: "footer"
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "w-full py-2 transform border border-gray-800 rounded-md hover:scale-95 focus:outline-none",
+                    on: {
+                      click: function($event) {
+                        _vm.showDeleteModal = false
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "w-full py-2 text-white transform bg-red-500 rounded-md hover:scale-95 focus:outline-none",
+                    on: { click: _vm.deleteTag }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ]
+            )
+          ]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -66726,109 +67892,6 @@ var staticRenderFns = [
           ])
         ]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-3 text-left" }, [
-      _c("div", { staticClass: "flex items-center" }, [
-        _c("div", { staticClass: "mr-2" }, [
-          _c("img", {
-            staticClass: "w-6 h-6 rounded-full",
-            attrs: { src: "https://randomuser.me/api/portraits/men/1.jpg" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("span", [_vm._v("Eshal Rosas")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-3 text-center" }, [
-      _c("div", { staticClass: "flex items-center justify-center" }, [
-        _c("img", {
-          staticClass:
-            "w-6 h-6 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/men/1.jpg" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass:
-            "w-6 h-6 -m-1 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/women/2.jpg" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass:
-            "w-6 h-6 -m-1 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/men/3.jpg" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-3 text-left" }, [
-      _c("div", { staticClass: "flex items-center" }, [
-        _c("div", { staticClass: "mr-2" }, [
-          _c("img", {
-            staticClass: "w-6 h-6",
-            attrs: { src: "https://img.icons8.com/color/100/000000/vue-js.png" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "font-medium" }, [_vm._v("Vue Project")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-3 text-left" }, [
-      _c("div", { staticClass: "flex items-center" }, [
-        _c("div", { staticClass: "mr-2" }, [
-          _c("img", {
-            staticClass: "w-6 h-6 rounded-full",
-            attrs: { src: "https://randomuser.me/api/portraits/women/2.jpg" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("span", [_vm._v("Anita Rodriquez")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-6 py-3 text-center" }, [
-      _c("div", { staticClass: "flex items-center justify-center" }, [
-        _c("img", {
-          staticClass:
-            "w-6 h-6 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/men/1.jpg" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass:
-            "w-6 h-6 -m-1 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/women/2.jpg" }
-        }),
-        _vm._v(" "),
-        _c("img", {
-          staticClass:
-            "w-6 h-6 -m-1 transform border border-gray-200 rounded-full hover:scale-125",
-          attrs: { src: "https://randomuser.me/api/portraits/men/3.jpg" }
-        })
-      ])
     ])
   }
 ]
@@ -67144,6 +68207,45 @@ var render = function() {
           })
         ]
       )
+    : _vm.name === "info"
+    ? _c(
+        "svg",
+        {
+          attrs: {
+            xmlns: "http://www.w3.org/2000/svg",
+            width: "24",
+            height: "24",
+            viewBox: "0 0 24 24"
+          }
+        },
+        [
+          _c("path", {
+            attrs: {
+              d:
+                "M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.033 16.01c.564-1.789 1.632-3.932 1.821-4.474.273-.787-.211-1.136-1.74.209l-.34-.64c1.744-1.897 5.335-2.326 4.113.613-.763 1.835-1.309 3.074-1.621 4.03-.455 1.393.694.828 1.819-.211.153.25.203.331.356.619-2.498 2.378-5.271 2.588-4.408-.146zm4.742-8.169c-.532.453-1.32.443-1.761-.022-.441-.465-.367-1.208.164-1.661.532-.453 1.32-.442 1.761.022.439.466.367 1.209-.164 1.661z"
+            }
+          })
+        ]
+      )
+    : _vm.name === "cloud-upload"
+    ? _c(
+        "svg",
+        {
+          attrs: {
+            xmlns: "http://www.w3.org/2000/svg",
+            viewBox: "0 0 50.68 50.68"
+          }
+        },
+        [
+          _c("path", {
+            attrs: {
+              d:
+                "M21.935 29.657c.619 0 1.127.492 1.127 1.111s-.508 1.127-1.127 1.127H11.238c-3.111 0-5.92-1.254-7.952-3.301A11.192 11.192 0 010 20.658a11.19 11.19 0 013.286-7.936 11.214 11.214 0 017.952-3.302c.746 0 1.492.079 2.222.238a9.73 9.73 0 011.175.302 14.73 14.73 0 014.92-5.016 14.423 14.423 0 017.635-2.175c3.857 0 7.365 1.508 9.968 3.952 2.333 2.206 3.952 5.159 4.444 8.492.238-.032.476-.032.73-.032 2.301 0 4.397.936 5.904 2.444a8.338 8.338 0 012.444 5.905 8.373 8.373 0 01-2.444 5.92 8.337 8.337 0 01-5.904 2.444H28.745a1.131 1.131 0 01-1.127-1.127c0-.619.508-1.111 1.127-1.111h13.587a6.083 6.083 0 004.317-1.794 6.093 6.093 0 001.794-4.333 6.051 6.051 0 00-1.794-4.317 6.083 6.083 0 00-5.063-1.746c-.238.016-.46.063-.667.111a7.482 7.482 0 01-.254.048 1.129 1.129 0 01-1.175-1.063c-.19-3.222-1.651-6.127-3.857-8.206a12.263 12.263 0 00-8.444-3.349 12.333 12.333 0 00-11.031 6.825 1.123 1.123 0 01-1.429.54 8.648 8.648 0 00-3.492-.715c-2.492 0-4.73 1.016-6.365 2.635a8.974 8.974 0 00-2.635 6.365c0 2.492 1 4.73 2.635 6.365 1.635 1.619 3.873 2.635 6.365 2.635h10.698zm14.142-2.952a1.112 1.112 0 010 1.587 1.12 1.12 0 01-1.571 0l-8.047-8.047V46.8c0 .619-.492 1.111-1.111 1.111a1.118 1.118 0 01-1.127-1.111V20.245l-8.031 8.047c-.444.429-1.159.429-1.587 0a1.112 1.112 0 010-1.587l9.952-9.952a1.093 1.093 0 011.571 0l9.951 9.952z",
+              fill: "#1e201d"
+            }
+          })
+        ]
+      )
     : _vm._e()
 }
 var staticRenderFns = []
@@ -67314,6 +68416,17 @@ var render = function() {
             _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
             _vm._v(" "),
             _c("div", {}, [_vm._v("Tag")])
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          { staticClass: "routerLink", attrs: { to: "/category" } },
+          [
+            _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
+            _vm._v(" "),
+            _c("div", {}, [_vm._v("category")])
           ],
           1
         )
@@ -70686,6 +71799,16 @@ if (inBrowser && window.Vue) {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VueRouter);
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-toastify/dist/vue-toastify.umd.min.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/vue-toastify/dist/vue-toastify.umd.min.js ***!
+  \****************************************************************/
+/***/ (function(module) {
+
+(function(t,e){ true?module.exports=e():0})("undefined"!==typeof self?self:this,(function(){return function(t){var e={};function i(n){if(e[n])return e[n].exports;var r=e[n]={i:n,l:!1,exports:{}};return t[n].call(r.exports,r,r.exports,i),r.l=!0,r.exports}return i.m=t,i.c=e,i.d=function(t,e,n){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:n})},i.r=function(t){"undefined"!==typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"===typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(i.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)i.d(n,r,function(e){return t[e]}.bind(null,r));return n},i.n=function(t){var e=t&&t.__esModule?function(){return t["default"]}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s="fb15")}({"24fb":function(t,e,i){"use strict";function n(t,e){var i=t[1]||"",n=t[3];if(!n)return i;if(e&&"function"===typeof btoa){var s=r(n),o=n.sources.map((function(t){return"/*# sourceURL=".concat(n.sourceRoot||"").concat(t," */")}));return[i].concat(o).concat([s]).join("\n")}return[i].join("\n")}function r(t){var e=btoa(unescape(encodeURIComponent(JSON.stringify(t)))),i="sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(e);return"/*# ".concat(i," */")}t.exports=function(t){var e=[];return e.toString=function(){return this.map((function(e){var i=n(e,t);return e[2]?"@media ".concat(e[2]," {").concat(i,"}"):i})).join("")},e.i=function(t,i,n){"string"===typeof t&&(t=[[null,t,""]]);var r={};if(n)for(var s=0;s<this.length;s++){var o=this[s][0];null!=o&&(r[o]=!0)}for(var a=0;a<t.length;a++){var u=[].concat(t[a]);n&&r[u[0]]||(i&&(u[2]?u[2]="".concat(i," and ").concat(u[2]):u[2]=i),e.push(u))}},e}},"35b0":function(t,e,i){var n=i("3bfe");"string"===typeof n&&(n=[[t.i,n,""]]),n.locals&&(t.exports=n.locals);var r=i("499e").default;r("b388fa44",n,!0,{sourceMap:!1,shadowMode:!1})},"3bfe":function(t,e,i){var n=i("24fb");e=n(!1),e.push([t.i,".vt-notification-container{pointer-events:none;-webkit-box-sizing:border-box;box-sizing:border-box;position:fixed;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;margin:10px;width:auto;height:auto;z-index:9999}.vt-backdrop-hidden{-webkit-transition:all .15s ease-out;transition:all .15s ease-out;opacity:0;visibility:hidden;z-index:50;top:0;left:0;right:0;bottom:0;position:fixed}.vt-backdrop-visible{opacity:1;visibility:visible}.vt-top{top:0}.vt-centerY{top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.vt-bottom{bottom:0}.vt-left{left:0}.vt-centerX{left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.vt-right{right:0}.vt-center-center{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vt-success{border-color:#199919}.vt-success>.vt-icon>svg{fill:#199919}.vt-info{border-color:#003bc8}.vt-info>.vt-icon>svg{fill:#003bc8}.vt-warning{border-color:#ffb300}.vt-warning>.vt-icon>svg{fill:#ffb300}.vt-error{border-color:#b11414}.vt-error>.vt-icon>svg{fill:#b11414}.vt-notification{-webkit-transition:-webkit-transform .1s ease;transition:-webkit-transform .1s ease;transition:transform .1s ease;transition:transform .1s ease,-webkit-transform .1s ease;-webkit-box-sizing:border-box;box-sizing:border-box;pointer-events:auto;-webkit-box-shadow:0 0 10px .5px rgba(0,0,0,.35);box-shadow:0 0 10px .5px rgba(0,0,0,.35);padding:10px 20px;min-height:100px;min-width:250px;border-radius:5px;margin-bottom:10px;margin-left:auto;margin-right:auto;z-index:9999;display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-pack:distribute;justify-content:space-around;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-flow:wrap row;flex-flow:row wrap;-ms-flex-line-pack:center;align-content:center}.vt-notification>.vt-progress-bar{height:3px;width:100%;margin-bottom:5px}.vt-notification>.vt-progress-bar>.vt-progress{max-width:100%;height:3px;overflow:hidden;-webkit-transition:max-width 1ms ease-in-out;transition:max-width 1ms ease-in-out}.vt-notification>.vt-content{width:auto;height:100%;max-width:250px;word-break:break-word}.vt-notification>.vt-content>.vt-title{font-size:1.4rem;margin:0}.vt-notification>.vt-content>.vt-paragraph{font-size:1rem;margin:.5rem 0}.vt-notification>.vt-circle{border-style:solid;border-width:2px;width:65px;height:65px;border-radius:50%;margin:5px!important}.vt-notification>.vt-icon-container{margin:0 20px;position:relative}.vt-notification>.vt-icon-container>.vt-icon{position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.vt-notification>.vt-buttons{-ms-flex-preferred-size:100%;flex-basis:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-flow:row wrap;flex-flow:row wrap;-ms-flex-line-pack:center;align-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:space-evenly;-ms-flex-pack:space-evenly;justify-content:space-evenly;margin:5px -23px 0}.vt-notification>.vt-buttons>button{-ms-flex-preferred-size:48%;flex-basis:48%;width:auto;margin-bottom:4px;border-radius:4px}@media (max-width:268px){.vt-notification{min-height:auto;min-width:100%;border-radius:0}.vt-notification>.vt-content{text-align:center}.vt-notification-container{width:100%;margin:0}}.vt-will-change{will-change:transform,opacity}.vt-move{-webkit-transition-timing-function:ease-in-out;transition-timing-function:ease-in-out;-webkit-transition-property:all;transition-property:all;-webkit-transition-duration:.2s;transition-duration:.2s}.vt-move[data-delayed=true]{-webkit-transition-delay:.2s!important;transition-delay:.2s!important}.vt-spinner{width:60px;height:60px;border-radius:50%;background-color:transparent;-webkit-animation:spin 1s linear infinite;animation:spin 1s linear infinite}.vt-cursor-wait{cursor:wait}.vt-cursor-pointer{cursor:pointer}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.vt-theme-dark{background-color:#1d1d1d}.vt-theme-dark>.vt-progress-bar{background-color:#373737}.vt-theme-dark>.vt-progress-bar>.vt-progress{background-color:#6a6a6a}.vt-theme-dark>.vt-content>.vt-title{color:#dcdcdc}.vt-theme-dark>.vt-content>.vt-paragraph{color:#dcdcdc}.vt-theme-dark>.vt-buttons>button{border:1px solid #373737;background-color:#373737;color:#dcdcdc;-webkit-transition:all .2s ease-out;transition:all .2s ease-out}.vt-theme-dark>.vt-buttons>button:hover{background-color:#c3c3c3;color:#2a2a2a;-webkit-transition:all .2s ease-out;transition:all .2s ease-out}.vt-theme-dark>.vt-prompt{border-color:#d0d0d0}.vt-theme-dark>.vt-prompt>.vt-icon>svg{fill:#d0d0d0}.vt-theme-dark>.vt-icon-container>.vt-spinner{border:2px solid #6a6a6a;border-top:2px solid #fff}.vt-theme-light{background-color:#f0f0f0}.vt-theme-light>.vt-progress-bar{background-color:#d7d7d7}.vt-theme-light>.vt-progress-bar>.vt-progress{background-color:#a4a4a4}.vt-theme-light>.vt-content>.vt-title{color:#313131}.vt-theme-light>.vt-content>.vt-paragraph{color:#313131}.vt-theme-light>.vt-buttons>button{border:1px solid #d7d7d7;background-color:#d7d7d7;color:#313131;-webkit-transition:all .2s ease-out;transition:all .2s ease-out}.vt-theme-light>.vt-buttons>button:hover{background-color:#4a4a4a;color:#e3e3e3;-webkit-transition:all .2s ease-out;transition:all .2s ease-out}.vt-theme-light>.vt-prompt{border-color:#3e3e3e}.vt-theme-light>.vt-prompt>.vt-icon>svg{fill:#3e3e3e}.vt-theme-light>.vt-icon-container>.vt-spinner{border:2px solid #a4a4a4;border-top:2px solid #0b0b0b}.vt-bottom-enter-active,.vt-center-enter-active,.vt-left-enter-active,.vt-right-enter-active,.vt-top-enter-active{-webkit-transition:all .2s ease-out;transition:all .2s ease-out}.vt-bottom-leave-active,.vt-center-leave-active,.vt-left-leave-active,.vt-right-leave-active,.vt-top-leave-active{-webkit-transition:all .2s ease-in;transition:all .2s ease-in}.vt-right-enter,.vt-right-leave-to{-webkit-transform:translateX(50px);transform:translateX(50px);opacity:0}.vt-left-enter,.vt-left-leave-to{-webkit-transform:translateX(-50px);transform:translateX(-50px);opacity:0}.vt-bottom-enter,.vt-bottom-leave-to{-webkit-transform:translateY(50px);transform:translateY(50px);opacity:0}.vt-top-enter,.vt-top-leave-to{-webkit-transform:translateY(-50px);transform:translateY(-50px);opacity:0}.vt-center-enter,.vt-center-leave-to{opacity:0}",""]),t.exports=e},"499e":function(t,e,i){"use strict";function n(t,e){for(var i=[],n={},r=0;r<e.length;r++){var s=e[r],o=s[0],a=s[1],u=s[2],c=s[3],d={id:t+":"+r,css:a,media:u,sourceMap:c};n[o]?n[o].parts.push(d):i.push(n[o]={id:o,parts:[d]})}return i}i.r(e),i.d(e,"default",(function(){return p}));var r="undefined"!==typeof document;if("undefined"!==typeof DEBUG&&DEBUG&&!r)throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");var s={},o=r&&(document.head||document.getElementsByTagName("head")[0]),a=null,u=0,c=!1,d=function(){},l=null,h="data-vue-ssr-id",f="undefined"!==typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase());function p(t,e,i,r){c=i,l=r||{};var o=n(t,e);return g(o),function(e){for(var i=[],r=0;r<o.length;r++){var a=o[r],u=s[a.id];u.refs--,i.push(u)}e?(o=n(t,e),g(o)):o=[];for(r=0;r<i.length;r++){u=i[r];if(0===u.refs){for(var c=0;c<u.parts.length;c++)u.parts[c]();delete s[u.id]}}}}function g(t){for(var e=0;e<t.length;e++){var i=t[e],n=s[i.id];if(n){n.refs++;for(var r=0;r<n.parts.length;r++)n.parts[r](i.parts[r]);for(;r<i.parts.length;r++)n.parts.push(m(i.parts[r]));n.parts.length>i.parts.length&&(n.parts.length=i.parts.length)}else{var o=[];for(r=0;r<i.parts.length;r++)o.push(m(i.parts[r]));s[i.id]={id:i.id,refs:1,parts:o}}}}function v(){var t=document.createElement("style");return t.type="text/css",o.appendChild(t),t}function m(t){var e,i,n=document.querySelector("style["+h+'~="'+t.id+'"]');if(n){if(c)return d;n.parentNode.removeChild(n)}if(f){var r=u++;n=a||(a=v()),e=y.bind(null,n,r,!1),i=y.bind(null,n,r,!0)}else n=v(),e=w.bind(null,n),i=function(){n.parentNode.removeChild(n)};return e(t),function(n){if(n){if(n.css===t.css&&n.media===t.media&&n.sourceMap===t.sourceMap)return;e(t=n)}else i()}}var b=function(){var t=[];return function(e,i){return t[e]=i,t.filter(Boolean).join("\n")}}();function y(t,e,i,n){var r=i?"":n.css;if(t.styleSheet)t.styleSheet.cssText=b(e,r);else{var s=document.createTextNode(r),o=t.childNodes;o[e]&&t.removeChild(o[e]),o.length?t.insertBefore(s,o[e]):t.appendChild(s)}}function w(t,e){var i=e.css,n=e.media,r=e.sourceMap;if(n&&t.setAttribute("media",n),l.ssrId&&t.setAttribute(h,e.id),r&&(i+="\n/*# sourceURL="+r.sources[0]+" */",i+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(r))))+" */"),t.styleSheet)t.styleSheet.cssText=i;else{while(t.firstChild)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(i))}}},8875:function(t,e,i){var n,r,s;(function(i,o){r=[],n=o,s="function"===typeof n?n.apply(e,r):n,void 0===s||(t.exports=s)})("undefined"!==typeof self&&self,(function(){function t(){if(document.currentScript)return document.currentScript;try{throw new Error}catch(l){var t,e,i,n=/.*at [^(]*\((.*):(.+):(.+)\)$/gi,r=/@([^@]*):(\d+):(\d+)\s*$/gi,s=n.exec(l.stack)||r.exec(l.stack),o=s&&s[1]||!1,a=s&&s[2]||!1,u=document.location.href.replace(document.location.hash,""),c=document.getElementsByTagName("script");o===u&&(t=document.documentElement.outerHTML,e=new RegExp("(?:[^\\n]+?\\n){0,"+(a-2)+"}[^<]*<script>([\\d\\D]*?)<\\/script>[\\d\\D]*","i"),i=t.replace(e,"$1").trim());for(var d=0;d<c.length;d++){if("interactive"===c[d].readyState)return c[d];if(c[d].src===o)return c[d];if(o===u&&c[d].innerHTML&&c[d].innerHTML.trim()===i)return c[d]}return null}}return t}))},a27d:function(t,e,i){"use strict";var n=i("35b0"),r=i.n(n);r.a},fb15:function(t,e,i){"use strict";if(i.r(e),"undefined"!==typeof window){var n=window.document.currentScript,r=i("8875");n=r(),"currentScript"in document||Object.defineProperty(document,"currentScript",{get:r});var s=n&&n.src.match(/(.+\/)[^/]+\.js(\?.*)?$/);s&&(i.p=s[1])}var o=function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",[i("div",{staticClass:"vt-backdrop-hidden",class:{"vt-backdrop-visible":t.toasts.length>0&&t.settings.withBackdrop},style:{backgroundColor:t.settings.backdrop}}),i("vt-transition",{staticClass:"vt-notification-container",class:t.positionClasses,style:t.flexDirection,attrs:{transition:t.getTransition,position:t.settings.position}},t._l(t.toasts,(function(e){return i("Toast",{key:e.id,attrs:{status:e,"base-icon-class":t.settings.baseIconClass}})})),1)],1)},a=[],u=function(){var t=this,e=t.$createElement,i=t._self._c||e;return i(t.tag,t._b({tag:"component",staticClass:"vt-notification",class:t.notificationClass,style:t.draggableStyles,attrs:{draggable:"false"},on:{mouseenter:function(e){t.isHovered=!0},mouseleave:function(e){t.isHovered=!1},touchstart:function(e){t.isHovered=!0},touchend:function(e){t.isHovered=!1}}},"component",t.urlTarget,!1),[t.isNotification&&t.status.canTimeout?i("ProgressBar",{ref:"progress-"+t.status.id,attrs:{"can-pause":t.status.canPause,duration:t.status.duration,"is-hovered":t.isHovered,"hide-progressbar":t.status.hideProgressbar,id:t.status.id},on:{vtFinished:t.closeNotification}}):t._e(),i("div",{staticClass:"vt-content"},[t.status.title?i("h2",{staticClass:"vt-title",domProps:{textContent:t._s(t.status.title)}}):t._e(),i("p",{staticClass:"vt-paragraph",domProps:{innerHTML:t._s(t.status.body)}})]),t.status.iconEnabled?i("Icon",{attrs:{mode:t.status.mode,type:t.status.type,icon:t.status.icon,"base-icon-class":t.baseIconClass}}):t._e(),"prompt"===t.status.mode?i("div",{staticClass:"vt-buttons"},t._l(t.status.answers,(function(e,n,r){return i("button",{key:r,domProps:{textContent:t._s(n)},on:{click:function(i){return t.respond(e)}}})})),0):t._e()],1)},c=[],d=function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",{directives:[{name:"show",rawName:"v-show",value:!t.hideProgressbar,expression:"!hideProgressbar"}],staticClass:"vt-progress-bar"},[i("div",{staticClass:"vt-progress",style:{width:this.progress+"%"}})])},l=[],h=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame,f=window.cancelAnimationFrame||window.mozCancelAnimationFrame,p={name:"ProgressBar",props:{canPause:{type:Boolean},canTimeout:{type:Boolean},isHovered:{type:Boolean},hideProgressbar:{type:Boolean},duration:{type:Number},id:{type:String}},beforeMount:function(){this.timerFinishesAt=new Date(this.duration+Date.now())},mounted:function(){var t=this;this.$root.$emit("vtStarted",{id:this.id}),this.timerStartedAt=new Date,this.timerPausedAt=new Date,this.canPause||(this.timerId=window.setTimeout((function(){return t.$emit("vtFinished")}),this.timerFinishesAt.getTime()-Date.now()),this.progressId=h(this.progressBar)),this.timerStart()},data:function(){return{progress:0,progressId:null,timerId:null,timerStartedAt:null,timerPausedAt:null,timerFinishesAt:null}},methods:{timerStart:function(){var t=this;this.canPause&&(this.timerStartedAt=new Date(this.timerStartedAt.getTime()+(Date.now()-this.timerPausedAt.getTime())),this.timerFinishesAt=new Date(this.timerFinishesAt.getTime()+(Date.now()-this.timerPausedAt.getTime())),!this.timerId&&this.progress>0&&this.$root.$emit("vtResumed",{id:this.id}),this.timerId=window.setTimeout((function(){return t.$emit("vtFinished")}),this.timerFinishesAt.getTime()-Date.now()),this.progressId=h(this.progressBar))},timerPause:function(){this.canPause&&(window.clearTimeout(this.timerId),this.timerId=null,f(this.progressId),this.progressId=null,this.$root.$emit("vtPaused",{id:this.id}),this.timerPausedAt=new Date)},progressBar:function(){if(this.progress<100){var t=this.timerFinishesAt.getTime()-this.timerStartedAt.getTime(),e=Date.now()-this.timerStartedAt.getTime();this.progress=e/t*100,this.timerId&&(this.progressId=h(this.progressBar))}else this.progressId=f(this.progressId)}},watch:{isHovered:function(t){t?this.timerPause():this.timerStart()}},beforeDestroy:function(){this.progress=0,window.clearTimeout(this.timerId),this.progressId&&(f(this.progressId),this.progressId=null)}},g=p;function v(t,e,i,n,r,s,o,a){var u,c="function"===typeof t?t.options:t;if(e&&(c.render=e,c.staticRenderFns=i,c._compiled=!0),n&&(c.functional=!0),s&&(c._scopeId="data-v-"+s),o?(u=function(t){t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,t||"undefined"===typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),r&&r.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(o)},c._ssrRegister=u):r&&(u=a?function(){r.call(this,this.$root.$options.shadowRoot)}:r),u)if(c.functional){c._injectStyles=u;var d=c.render;c.render=function(t,e){return u.call(e),d(t,e)}}else{var l=c.beforeCreate;c.beforeCreate=l?[].concat(l,u):[u]}return{exports:t,options:c}}var m=v(g,d,l,!1,null,null,null),b=m.exports,y=function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",{staticClass:"vt-icon-container",class:t.containerClasses},[t.userIcon?i(t.userIcon.tag,{tag:"component",staticClass:"vt-icon",class:t.userIcon.class,domProps:{innerHTML:t._s(t.userIcon.ligature)}}):"loader"===t.mode?i("div",{staticClass:"vt-spinner"}):"prompt"===t.mode?i("div",{staticClass:"vt-icon"},[i("svg",{staticStyle:{width:"24px",height:"24px"},attrs:{viewBox:"0 0 24 24"}},[i("path",{attrs:{d:"M10,19H13V22H10V19M12,2C17.35,2.22 19.68,7.62 16.5,11.67C15.67,12.67 14.33,13.33 13.67,14.17C13,15 13,16 13,17H10C10,15.33 10,13.92 10.67,12.92C11.33,11.92 12.67,11.33 13.5,10.67C15.92,8.43 15.32,5.26 12,5A3,3 0 0,0 9,8H6A6,6 0 0,1 12,2Z"}})])]):t.containerClasses["vt-success"]?i("div",{staticClass:"vt-icon"},[i("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"36",height:"36",viewBox:"0 0 24 24"}},[i("path",{attrs:{d:"M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"}})])]):t.containerClasses["vt-error"]?i("div",{staticClass:"vt-icon"},[i("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"36",height:"36",viewBox:"0 0 24 24"}},[i("path",{attrs:{d:"M18.3 5.71c-.39-.39-1.02-.39-1.41 0L12 10.59 7.11 5.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12 5.7 16.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L12 13.41l4.89 4.89c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"}})])]):t.containerClasses["vt-warning"]?i("div",{staticClass:"vt-icon"},[i("svg",{attrs:{xmlns:"http://www.w3.org/2000/svg",width:"36",height:"36",viewBox:"0 0 24 24"}},[i("circle",{attrs:{cx:"12",cy:"19",r:"2"}}),i("path",{attrs:{d:"M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"}})])]):t.containerClasses["vt-info"]?i("div",{staticClass:"vt-icon"},[i("svg",{staticStyle:{transform:"rotate(180deg)"},attrs:{xmlns:"http://www.w3.org/2000/svg",width:"36",height:"36",viewBox:"0 0 24 24"}},[i("path",{attrs:{d:"M12 3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2s2-.9 2-2V5c0-1.1-.9-2-2-2z"}}),i("circle",{attrs:{cx:"12",cy:"19",r:"2"}})])]):t._e()],1)},w=[],x=function(t){return"boolean"===typeof t},k=function(t){return"string"===typeof t},T=function(t){return t===Object(t)},$=function(t,e,i){return t>e&&t<=i},P={name:"Icon",props:{mode:{type:String},type:{type:String},icon:{type:[Object,String]},baseIconClass:{type:String,default:""}},computed:{userIcon:function(){if(!this.icon)return!1;var t={tag:"i",ligature:"",class:this.baseIconClass};return k(this.icon)&&(this.icon.toLowerCase().includes("<svg")?(t.tag="div",t.ligature=this.icon):t.class=t.class+" "+this.icon),T(this.icon)&&(t=Object.assign(t,this.icon)),t},containerClasses:function(){var t={};return"loader"!==this.mode&&(t["vt-circle"]=!this.icon),t["vt-prompt"]="prompt"===this.mode,void 0!==this.mode&&0!==this.mode.length||(t["vt-"+(this.type?this.type:"info")]=!0),t}}},S=P,C=v(S,y,w,!1,null,null,null),O=C.exports,j={data:function(){return{dragStartPos:{},dragPos:{},isDragged:!1,boundingClientRect:{}}},mounted:function(){this.status.draggable&&(this.$el.addEventListener("touchstart",this.dragStarted),this.$el.addEventListener("mousedown",this.dragStarted),addEventListener("touchmove",this.beingDragged),addEventListener("mousemove",this.beingDragged),addEventListener("touchend",this.dragFinished),addEventListener("mouseup",this.dragFinished))},beforeDestroy:function(){this.status.draggable&&(this.$el.removeEventListener("touchstart",this.dragStarted),this.$el.removeEventListener("mousedown",this.dragStarted),removeEventListener("touchmove",this.beingDragged),removeEventListener("mousemove",this.beingDragged),removeEventListener("touchend",this.dragFinished),removeEventListener("mouseup",this.dragFinished))},computed:{hasMoved:function(){return void 0!==this.dragPos.x&&this.dragStartPos.x!==this.dragPos.x},dragXDistance:function(){return this.isDragged?this.dragPos.x-this.dragStartPos.x:0},removalDistance:function(){return this.boundingClientRect.width*this.status.dragThreshold},draggableStyles:function(){if(this.dragStartPos.x===this.dragPos.x||!this.hasMoved)return{};var t=1-Math.abs(this.dragXDistance/this.removalDistance);return t=isNaN(t)?1:t,{transform:"translateX("+this.dragXDistance+"px)",opacity:t,"user-select":"none"}}},methods:{dragStarted:function(t){this.$el.classList.toggle("vt-will-change"),this.isDragged=!0,this.dragStartPos={x:this.xPos(t),y:this.yPos(t)},this.boundingClientRect=this.$el.getBoundingClientRect()},beingDragged:function(t){t.preventDefault(),this.isDragged&&(this.dragPos={x:this.xPos(t),y:this.yPos(t)},this.hasMoved?this.$root.$emit("vtBeingDragged",{id:this.status.id,position:this.dragPos}):this.$root.$emit("vtDragStarted",{id:this.status.id,position:this.dragStartPos}))},dragFinished:function(){var t=this;if(this.hasMoved){this.$root.$emit("vtDragFinished",{id:this.status.id,position:this.dragPos});this.$el.getBoundingClientRect().right>window.innerWidth&&(this.$el.getBoundingClientRect().right,window.innerWidth,this.boundingClientRect.width),this.$el.getBoundingClientRect().right,this.boundingClientRect.width;Math.abs(this.boundingClientRect.left-this.$el.getBoundingClientRect().left)>this.removalDistance&&this.closeNotification(),this.isDragged=!1,setTimeout((function(){t.dragPos={},t.dragStartPos={},t.$el.classList.toggle("vt-will-change")}))}},xPos:function(t){return t.targetTouches&&t.targetTouches.length>0?t.targetTouches[0].clientX:t.clientX},yPos:function(t){return t.targetTouches&&t.targetTouches.length>0?t.targetTouches[0].clientY:t.clientY}}},D={computed:{tag:function(){return this.hasUrl?"a":"div"},hasUrl:function(){return k(this.status.url)&&this.status.url.length>0||T(this.status.url)&&(this.routerRouteExits||!!this.status.url.href)},urlTarget:function(){if(this.status.url){if(k(this.status.url))return this.routerRouteExits?{href:this.$vtRouter.resolve(this.status.url).href}:{href:this.status.url};if(T(this.status.url))return!this.isRouterLinkObject&&this.status.url.href?this.status.url:this.routerRouteExits?{href:this.$vtRouter.resolve(this.status.url).href}:{}}return{}},isRouterLinkObject:function(){return!!this.status.url.path||!!this.status.url.name},routerRouteExits:function(){var t=this;return!!this.$vtRouter&&!!this.$vtRouter.options.routes.find((function(e){return e.path==="/"+t.status.url.path||e.path===t.status.url.path||e.name===t.status.url.name}))}},methods:{handleRedirect:function(t){if(this.hasUrl){if(T(this.status.url)&&this.status.url.href||k(this.status.url)&&!this.routerRouteExits)return;t.preventDefault(),this.$vtRouter&&this.$vtRouter.push(this.status.url)}}}},_={name:"Toast",components:{ProgressBar:b,Icon:O},props:{status:{type:Object},baseIconClass:{type:String,default:""}},mixins:[j,D],data:function(){return{isHovered:!1}},mounted:function(){var t=this;this.$el.addEventListener("click",this.dismiss),"loader"===this.status.mode&&this.$root.$once("vtLoadStop",(function(e){e.id?e.id===t.status.id&&t.closeNotification():t.closeNotification()}))},computed:{notificationClass:function(){var t={};return this.hasUrl?t["vt-cursor-pointer"]=!0:"loader"===this.status.mode&&(t["vt-cursor-wait"]=!0),t["vt-theme-"+this.status.theme]=!0,t},isNotification:function(){return-1===["prompt","loader"].indexOf(this.status.mode)}},methods:{closeNotification:function(){var t=Math.ceil(this.$refs["progress-"+this.status.id]?this.$refs["progress-"+this.status.id].progress:void 0);(isNaN(t)||t<100)&&this.isNotification&&(this.$root.$emit("vtDismissed",{id:this.status.id}),this.status.callback&&this.status.callback()),t>=100&&this.isNotification&&(this.$root.$emit("vtFinished",{id:this.status.id}),this.status.callback&&this.status.callback())},dismiss:function(t){this.isNotification&&!this.hasMoved&&this.closeNotification(),this.handleRedirect(t)},respond:function(t){this.closeNotification(),this.$root.$emit("vtPromptResponse",{id:this.status.id,response:t})}},beforeDestroy:function(){this.$el.removeEventListener("click",this.dismiss)}},E=_,L=v(E,u,c,!1,null,null,null),N=L.exports,I=function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("transition-group",{attrs:{name:t.transition.name?t.transition.name:t.transition,css:!0,tag:"div","move-class":t.transition.moveClass?t.transition.moveClass:"vt-move"},on:{leave:t.leave,"before-enter":t.beforeEnter,"after-enter":t.afterEnter,"before-leave":t.beforeLeave}},[t._t("default")],2)},R=[],B={name:"Transition",props:{transition:{type:[String,Object],required:!0},position:{type:String,required:!0}},methods:{leave:function(t){if(!(this.$parent.singular||this.$parent.oneType&&1===this.$parent.$el.childNodes.length)){var e=this.position.split("-"),i=window.getComputedStyle(t),n=i.height,r=i.width,s=i.marginBottom;t.style.left=t.offsetLeft-(1===t.parentNode.childNodes.length?parseInt(r):0)+"px",t.style.top=t.offsetTop+"px","center"===e[0]&&(t.style.top=parseInt(t.style.top)-parseInt(n)/2-parseInt(s)/2+"px"),"bottom"===e[0]&&(t.style.top=parseInt(t.style.top)-parseInt(n)-parseInt(s)+"px"),t.style.width=r,t.style.position="absolute"}},beforeEnter:function(t){this.$el.childNodes.forEach((function(t){return delete t.dataset.delayed})),t.__vue__.status.delayed&&(t.dataset.delayed=!0,t.classList.add("vt-move"),delete t.__vue__.status.delayed)},afterEnter:function(t){t.removeAttribute("data-delayed")},beforeLeave:function(t){for(var e=0;e<t.parentNode.childNodes.length;e++)t.parentNode.childNodes[e].isSameNode(t)||(t.parentNode.childNodes[e].dataset.delayed=!0);t.classList.remove("vt-default-position")}}},A=B,M=v(A,I,R,!1,null,null,null),F=M.exports;function q(t,e){var i=Object.keys(t);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(t);e&&(n=n.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),i.push.apply(i,n)}return i}function H(t){for(var e=1;e<arguments.length;e++){var i=null!=arguments[e]?arguments[e]:{};e%2?q(Object(i),!0).forEach((function(e){z(t,e,i[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(i)):q(Object(i)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(i,e))}))}return t}function z(t,e,i){return e in t?Object.defineProperty(t,e,{value:i,enumerable:!0,configurable:!0,writable:!0}):t[e]=i,t}var U={},X={name:"VueToastify",components:{Toast:N,"vt-transition":F},props:{singular:{type:Boolean,default:!1},withBackdrop:{type:Boolean,default:!1},backdrop:{type:String,default:"rgba(0, 0, 0, 0.2)"},position:{validator:function(t){return-1!==["top-left","top-center","top-right","center-left","center-center","center-right","bottom-left","bottom-center","bottom-right"].indexOf(t)},default:"bottom-right"},defaultTitle:{type:Boolean,default:!0},canPause:{type:Boolean,default:!0},canTimeout:{type:Boolean,default:!0},iconEnabled:{type:Boolean,default:!0},draggable:{type:Boolean,default:!0},dragThreshold:{type:Number,default:.75,validator:function(t){return $(t,0,5)}},hideProgressbar:{type:Boolean,default:!1},errorDuration:{type:Number,default:8e3},successDuration:{type:Number,default:4e3},warningInfoDuration:{type:Number,default:6e3},theme:{type:String,default:"dark"},baseIconClass:{type:String,default:""},orderLatest:{type:Boolean,default:!0},transition:{type:[String,Object],default:function(){}},oneType:{type:Boolean,default:!1},maxToasts:{type:Number,default:6}},data:function(){return{toasts:[],queue:[],settings:{singular:!1,withBackdrop:!1,backdrop:"rgba(0, 0, 0, 0.2)",position:"bottom-right",defaultTitle:!0,canTimeout:!0,canPause:!1,iconEnabled:!0,draggable:!0,dragThreshold:.75,hideProgressbar:!1,errorDuration:8e3,successDuration:4e3,warningInfoDuration:6e3,theme:"dark",baseIconClass:"",orderLatest:!0,transition:null,oneType:!1,maxToasts:6}}},mounted:function(){var t=this;if(this.setSettings(),this.$root.$on(["vtFinished","vtDismissed","vtPromptResponse","vtLoadStop"],(function(e){"string"===typeof e.id&&t.remove(e.id)})),window.notification&&window.notification.type&&window.notification.body){var e=window.notification.delay?window.notification.delay:0;setTimeout((function(){t.add(window.notification)}),e)}},methods:{findToast:function(t){return this.toasts.findIndex((function(e){return e.id===t}))},findQueuedToast:function(t){return this.queue.findIndex((function(e){return e.id===t}))},uuidv4:function(){return([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,(function(t){return(t^crypto.getRandomValues(new Uint8Array(1))[0]&15>>t/4).toString(16)}))},getTitle:function(t){if(t.title)return t.title;if(x(t.defaultTitle)){if(!t.defaultTitle)return"";if("prompt"===t.mode||"loader"===t.mode)return"";if(t.type)return t.type.charAt(0).toUpperCase()+t.type.slice(1)}if(this.settings.defaultTitle){if("prompt"===t.mode||"loader"===t.mode)return"";if(t.type)return t.type.charAt(0).toUpperCase()+t.type.slice(1)}return"Info"},arrayHasType:function(t){return!!this.toasts.find((function(e){return e.mode&&e.mode===t.mode||e.type&&e.type===t.type}))},setSettings:function(){var t=this,e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return e?Object.keys(this.settings).forEach((function(i){void 0!==e[i]&&t.$set(t.settings,i,e[i])})):this.settings=Object.assign({},this._props),this.settings},getSettings:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return this.settings[t]?this.settings[t]:this.settings},stopLoader:function(){var t=this,e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null,i=e;return i="string"===typeof e?[e]:Array.isArray(e)?e:this.toasts.map((function(t){if("loader"===t.mode)return t.id})),i.forEach((function(e){t.$root.$emit("vtLoadStop",{id:e})})),i.length},add:function(t){var e=Object.assign({},t);return e.duration=this.settings.warningInfoDuration,Number(t.duration)>0?e.duration=Number(t.duration):t.type&&(e.duration="error"===t.type?this.settings.errorDuration:"success"===t.type?this.settings.successDuration:this.settings.warningInfoDuration),e.answers=t.answers&&Object.keys(t.answers).length>0?t.answers:{Yes:!0,No:!1},e.canPause=x(t.canPause)?t.canPause:this.settings.canPause,e.hideProgressbar=x(t.hideProgressbar)?t.hideProgressbar:this.settings.hideProgressbar,e.id=this.uuidv4(),e.title=this.getTitle(t),e.canTimeout=x(t.canTimeout)?t.canTimeout:this.settings.canTimeout,e.iconEnabled=x(t.iconEnabled)?t.iconEnabled:this.settings.iconEnabled,-1===["prompt","loader"].indexOf(t.mode)?e.draggable=x(t.draggable)?t.draggable:this.settings.draggable:e.draggable=!1,e.dragThreshold=$(t.dragThreshold,0,5)?t.dragThreshold:this.settings.dragThreshold,"prompt"!==t.mode&&"loader"!==t.mode||(e.canTimeout=!1),e.theme=t.theme?t.theme:this.settings.theme,this.settings.singular&&this.toasts.length>0||this.settings.oneType&&this.arrayHasType(e)||this.toasts.length>=this.settings.maxToasts?(this.$set(this.queue,this.queue.length,e),e.id):(this.$set(this.toasts,this.toasts.length,e),e.id)},get:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;if(t){var e=this.toasts.find((function(e){return e.id===t}));return e||(e=this.queue.find((function(e){return e.id===t}))),e||!1}return this.toasts.concat(this.queue)},set:function(t,e){var i=this.get(t);return!(!i||i instanceof Array)&&(-1!==this.findToast(t)?(this.$set(this.toasts,this.findToast(t),Object.assign(i,e)),!0):(this.$set(this.toasts,this.findQueuedToast(t),Object.assign(i,e)),!0))},remove:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;if(t){var e=this.findQueuedToast(t);return this.settings.singular&&-1!==e?(this.$delete(this.queue,e),this.currentlyShowing):(e=this.findToast(t),-1!==e&&(this.$delete(this.toasts,e),this.currentlyShowing))}return this.toasts=[],this.currentlyShowing}},computed:{getTransition:function(){if(this.settings.transition)return this.settings.transition;var t=this.settings.position.split("-");return"left"===t[1]?"vt-left":"center"===t[1]?"vt-"+t[0]:"vt-right"},flexDirection:function(){return{"flex-direction":this.settings.orderLatest&&"bottom"===this.settings.position.split("-")[0]?"column":"column-reverse"}},positionClasses:function(){var t=this.settings.position.split("-"),e={};return t[0]===t[1]?(e["vt-center-center"]=!0,e):(e["center"===t[0]?"vt-centerY":"vt-"+t[0]]=!0,e["center"===t[1]?"vt-centerX":"vt-"+t[1]]=!0,e)},currentlyShowing:function(){return this.toasts.map((function(t){return t.id}))}},watch:{settings:{handler:function(t,e){if(x(t.singular)){if(!t.singular){for(var i=0;i<this.settings.maxToasts-1;i++)this.queue[i]&&(this.arrayHasType(this.queue[i])||this.$set(this.toasts,this.toasts.length,this.queue.splice(i,1)[0]));return void(x(U.orderLatest)&&(t.orderLatest=U.orderLatest,delete U.orderLatest))}U.orderLatest=e.orderLatest,t.orderLatest=!1}},deep:!0},toasts:{handler:function(t){var e=this;0!==this.queue.length&&this.$nextTick((function(){if(!e.settings.singular)return e.settings.oneType?e.queue.forEach((function(t,i){!e.arrayHasType(t)&&e.toasts.length<e.settings.maxToasts&&e.$set(e.toasts,e.toasts.length,H({},e.queue.splice(i,1)[0],{delayed:!0}))})):void(e.toasts.length<e.settings.maxToasts&&e.$set(e.toasts,e.toasts.length,H({},e.queue.shift(),{delayed:!0})));0===t.length&&e.$set(e.toasts,e.toasts.length,H({},e.queue.shift(),{delayed:!0}))}))},deep:!0}},beforeDestroy:function(){this.$root.$off(["vtFinished","vtDismissed","vtPromptResponse","vtLoadStop"])}},Y=X,V=(i("a27d"),v(Y,o,a,!1,null,null,null)),Q=V.exports;function W(t,e){var i=Object.keys(t);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(t);e&&(n=n.filter((function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable}))),i.push.apply(i,n)}return i}function G(t){for(var e=1;e<arguments.length;e++){var i=null!=arguments[e]?arguments[e]:{};e%2?W(Object(i),!0).forEach((function(e){J(t,e,i[e])})):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(i)):W(Object(i)).forEach((function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(i,e))}))}return t}function J(t,e,i){return e in t?Object.defineProperty(t,e,{value:i,enumerable:!0,configurable:!0,writable:!0}):t[e]=i,t}var Z={install:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,n=t.extend(Q),r=new n;i&&(t.prototype.$vtRouter=i),r._props=Object.assign(r._props,e);var s=r.$mount();document.querySelector("body").appendChild(s.$el),"undefined"!==typeof window&&window.Vue&&window.Vue.use(r);var o=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"string"===typeof t&&(t={body:t}),e&&(t.title=e),t.type||(t.type="success"),r.add(t)},a={success:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return o(t,e)},info:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"string"===typeof t&&(t={body:t}),e&&(t.title=e),t.type="info",o(t)},warning:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"string"===typeof t&&(t={body:t}),e&&(t.title=e),t.type="warning",o(t)},error:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"string"===typeof t&&(t={body:t}),t.status&&t.statusText&&(t={title:t.status.toString(),body:t.statusText}),e&&(t.title=e),t.type="error",o(t)},loader:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;return"string"===typeof t&&(t={body:t}),e&&(t.title=e),t.mode="loader",o(t)},prompt:function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;"string"===typeof t&&(t={body:t}),e&&(t.title=e),t.mode="prompt";var i=r.add(t);return new Promise((function(t){r.$root.$once("vtPromptResponse",(function(e){e.id===i&&t(e.response)}))}))},stopLoader:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;r.stopLoader(t)},getToast:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return r.get(t)},changeToast:function(t,e){return r.set(t,e)},removeToast:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return r.remove(t)},setSettings:function(t){return r.setSettings(t)},getSettings:function(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;return r.getSettings(t)},listen:function(t,e){return r.$on(t,(function(t){return e(t)}))},listenOnce:function(t,e){return r.$once(t,(function(t){return e(t)}))}};e.customNotifications&&Object.entries(e.customNotifications).length>0&&Object.entries(e.customNotifications).forEach((function(t){Object.defineProperty(a,t[0],{get:function(){return function(e){var i=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,n={};return n=Object.assign(n,t[1]),"string"===typeof e?n.body=e:n=G({},t[1],{},e),i&&(n.title=i),o(n)}}})})),t.prototype.$vtNotify=o,t.$vtNotify=o,t.prototype.$vToastify=a,t.$vToastify=a}},K=Z;e["default"]=K}})}));
 
 /***/ }),
 

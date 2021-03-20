@@ -12,6 +12,10 @@
                 <icon name="tag" class="icon" />
                 <div class="">Tag</div>
             </router-link>
+            <router-link to="/category" class="routerLink">
+                <icon name="tag" class="icon" />
+                <div class="">category</div>
+            </router-link>
         </div>
     </div>
 </template>
