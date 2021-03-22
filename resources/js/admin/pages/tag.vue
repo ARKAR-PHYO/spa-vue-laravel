@@ -11,7 +11,7 @@
             </div>
 
             <!-- TABLE -->
-            <div class="my-6 bg-white rounded shadow-md">
+            <div v-if="tags.length" class="my-6 bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
                     <thead>
                         <tr class="text-sm leading-normal text-gray-600 uppercase bg-gray-200">
@@ -67,6 +67,13 @@
                 </table>
             </div>
             <!-- TABLE END -->
+            <div v-else class="flex items-center px-4 py-2 mt-6 space-x-4 text-lg font-semibold bg-yellow-200 border-l-4 border-yellow-500 rounded-md">
+                <icon name="info" class="w-6 text-yellow-500 fill-current" />
+                <div class="">
+                    <p>You don't have any records.</p>
+                    <p><span @click="addModal = true" class="underline cursor-pointer hover:no-underline">Go add some record</span></p>
+                </div>
+            </div>
 
             <!-- TAG ADDING MODAL -->
             <Modal

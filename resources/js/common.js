@@ -18,7 +18,7 @@ export default{
             }
         },
 
-        info(body, title="INFO") {
+        info(body, title) {
             this.$vToastify.info({
                 title: title,
                 body: body,
@@ -26,7 +26,7 @@ export default{
             });
         },
 
-        success(body, title="SUCCESS") {
+        success(body, title) {
             this.$vToastify.success({
                 title: title,
                 body: body,
@@ -34,7 +34,7 @@ export default{
             });
         },
 
-        error(body, title="ERROR") {
+        error(body, title) {
             this.$vToastify.error({
                 title: title,
                 body: body,
@@ -42,7 +42,7 @@ export default{
             });
         },
 
-        warning(body, title="WARNING") {
+        warning(title, body) {
             this.$vToastify.warning({
                 title: title,
                 body: body,

@@ -4,6 +4,7 @@ Vue.use(Router)
 
 import adminDashboard from './admin/pages/adminDashboard'
 import tag from './admin/pages/tag'
+import category from './admin/pages/category'
 
 const routes = [
     {
@@ -13,6 +14,10 @@ const routes = [
     {
         path: '/tag',
         component: tag,
+    },
+    {
+        path: '/category',
+        component: category,
     },
 ]
 

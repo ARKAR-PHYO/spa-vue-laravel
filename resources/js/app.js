@@ -5,10 +5,12 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 import common from './common';
 import VueToastify from "vue-toastify";
+import clickaway from 'vue-clickaway';
 
 Vue.use(ViewUI);
 Vue.mixin(common);
 Vue.use(VueToastify);
+Vue.use(clickaway);
 Vue.component('mainapp', require('./admin/shared/mainapp.vue').default);
 
 const app = new Vue({

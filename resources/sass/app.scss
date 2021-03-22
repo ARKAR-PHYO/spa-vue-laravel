@@ -15,3 +15,18 @@
         @apply bg-gray-500 text-white;
     }
 }
+
+.router-link-exact-active {
+    @apply bg-gray-500 text-white border-r-4 border-blue-500;
+}
+
+.demo-upload-list {
+	&:hover {
+		.demo-upload-list-cover {
+			display: inline-flex;
+		}
+	}
+    .demo-upload-list-cover {
+        display: none;
+    }
+}

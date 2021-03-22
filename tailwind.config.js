@@ -22,6 +22,7 @@ module.exports = {
   variants: {
     extend: {
         divideColor: ['group-hover'],
+        flex: ['hover', 'focus'],
     },
   },
   plugins: [],
