@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-row h-screen">
             <div class="flex flex-col w-56 bg-gray-600">
-                <router-link to="/" class="flex items-center justify-center py-2 bg-gray-50">
+                <a href="/" class="flex items-center justify-center py-2 bg-gray-50">
                     <logo />
-                </router-link>
+                </a>
                 <mainmenu />
             </div>
             <div class="flex flex-col w-full">

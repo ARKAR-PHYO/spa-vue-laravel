@@ -4,18 +4,25 @@
             <span>{{ new Date().toLocaleString() }}</span>
         </div>
         <div class="flex-auto overflow-y-auto">
-            <router-link to="/" class="routerLink">
-                <icon name="dashboard" class="icon" />
-                <div class="">Dashboard</div>
-            </router-link>
-            <router-link to="/tag" class="routerLink">
-                <icon name="tag" class="icon" />
-                <div class="">Tag</div>
-            </router-link>
-            <router-link to="/category" class="routerLink">
-                <icon name="tag" class="icon" />
-                <div class="">category</div>
-            </router-link>
+            <div class="">
+                <router-link to="/" class="routerLink">
+                    <icon name="dashboard" class="icon" />
+                    <div class="">Dashboard</div>
+                </router-link>
+            </div>
+            <div class="">
+                <router-link to="/tag" class="routerLink">
+                    <icon name="tag" class="icon" />
+                    <div class="">Tag</div>
+                </router-link>
+            </div>
+            <div class="">
+                <router-link to="/category" class="routerLink">
+                    <icon name="tag" class="icon" />
+                    <div class="">category</div>
+                </router-link>
+            </div>
+
         </div>
     </div>
 </template>
@@ -23,6 +30,8 @@
 import icon from './Icon'
 
 export default {
-    components: {icon}
+    components: {
+        icon,
+    }
 }
 </script>

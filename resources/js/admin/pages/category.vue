@@ -61,7 +61,7 @@
                                         </svg>
                                     </div>
                                     <!-- DELETE BUTTON -->
-                                    <div @click="showDeletingModal(tag, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                    <div @click="showDeletingModal(category, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
@@ -152,11 +152,11 @@
                             <p>Click or drag files here to upload</p>
                         </div>
                     </Upload>
-                    <div v-if="editData.iconImage" class="relative w-40 p-2 overflow-hidden demo-upload-list">
+                    <div v-if="editData.iconImage" class="relative w-40 overflow-hidden demo-upload-list">
                         <img class="" :src="`${editData.iconImage}`">
                         <div class="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center mx-auto space-x-3 bg-gray-600 bg-opacity-60 demo-upload-list-cover">
                             <div @click="deleteImage(false)">
-                                <icon name="trash" class="w-3 text-white cursor-pointer fill-current" />
+                                <icon name="trash" class="w-4 text-white cursor-pointer fill-current" />
                             </div>
                         </div>
                     </div>
@@ -169,34 +169,22 @@
             </Modal>
 
             <!-- DELETING CATEGORY MODAL -->
-            <Modal
-            v-model="showDeleteModal"
-            :mask-closable="false"
-		    :closable="false"
-            >
-                <div slot="header" class="flex items-center justify-center space-x-4 text-lg font-semibold text-red-500">
-                    <icon name="info" class="w-4 h-4 fill-current" />
-                    <span>Delete confirmation</span>
-                </div>
-                <div style="text-align:center">
-                    <p>Are You Sure Want To Delete This?</p>
-                </div>
-                <div slot="footer" class="flex">
-                    <button @click="showDeleteModal = false" class="w-full py-2 transform border border-gray-800 rounded-md hover:scale-95 focus:outline-none">Cancel</button>
-                    <button @click="deleteTag" class="w-full py-2 text-white transform bg-red-500 rounded-md hover:scale-95 focus:outline-none">Delete</button>
-                </div>
-            </Modal>
+            <deleteModal />
+
         </div>
     </div>
 </template>
 
 <script>
 
+import deleteModal from '../components/deleteModal'
 import Icon from './../shared/Icon'
+import { mapGetters } from 'vuex'
 
 export default {
     components: {
         Icon,
+        deleteModal,
     },
 
     data() {
@@ -248,7 +236,6 @@ export default {
                 }
             }
         },
-
         // TAG EDITING MODAL
         async editCategory() {
             if (this.editData.categoryName.trim()=='') return this.error('Category Name Is Require')
@@ -274,7 +261,6 @@ export default {
                 }
             }
         },
-
         // SHOW EDIT MODAL
         showEditModal(category, index) {
             let obj = {
@@ -287,23 +273,16 @@ export default {
             this.index = index
             this.isEditingItem = true
         },
-
         // DELETE TAG
-        showDeletingModal(tag, i) {
-            this.deleteItem = tag
-            this.deletingIndex = i
-            this.showDeleteModal = true
-        },
-
-        async deleteTag() {
-            const res = await this.callApi('post', 'app/delete_tag', this.deleteItem)
-            if (res.status === 200) {
-                this.tags.splice(this.deletingIndex,1)
-                this.success('TAG HAS BEEN DELETED SUCCESSFULLY')
-            }else{
-                this.error()
+        showDeletingModal(category, i) {
+            const deleteModalObj = {
+                showDeleteModal: true,
+                deleteUrl: 'app/delete_category',
+                data: category,
+                deletingIndex: i,
+                isDeleted: false,
             }
-            this.showDeleteModal = false
+            this.$store.commit('setDeletingModalObj', deleteModalObj)
         },
 
         // DELETE IMAGE
@@ -325,7 +304,6 @@ export default {
                 this.error()
             }
         },
-
         handleSuccess (res, file) {
             res =  `/uploads/${res}`
             if (this.isEditingItem) {
@@ -351,7 +329,6 @@ export default {
                 'File  ' + file.name + ' is too large, no more than 2M.'
             );
         },
-
         closeEditModal() {
             this.isEditingItem = false
             this.editModal = false
@@ -365,6 +342,18 @@ export default {
             this.categories = res.data
         }else{
             this.error()
+        }
+    },
+
+    computed : {
+		...mapGetters(['getDeleteModalObj'])
+	},
+
+    watch: {
+        getDeleteModalObj(obj){
+            if (obj.isDeleted) {
+                this.categories.splice(obj.deletingIndex,1)
+            }
         }
     },
 }
