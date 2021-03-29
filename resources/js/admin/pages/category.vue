@@ -42,13 +42,13 @@
                             </td>
                             <td class="px-6 py-3 text-center">
                                 <div class="flex items-center justify-center">
-                                    <p>{{ category.created_at }}</p>
+                                    <p>{{ category.CreatedDate }}</p>
                                 </div>
                             </td>
                             <td class="px-6 py-3 text-center">
                                 <div class="flex justify-center item-center">
                                     <!-- VIEW BUTTON -->
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                    <div @click="showViewModal(category, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -168,6 +168,53 @@
                 </div>
             </Modal>
 
+            <!-- VIEWING CATEGORY MODAL -->
+            <Modal
+                v-model="showModal"
+                title="Show Category"
+                :closable="false"
+                :mask-closable="false"
+                >
+                <div class="">
+                    <table class="w-full table-auto min-w-max">
+                        <tbody class="text-sm font-light text-gray-600">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="px-3 py-3 text-left whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span>Category Name</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-left">
+                                    <div class="flex items-center">
+                                        <span>{{ showData.categoryName }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-3 py-3 text-left whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span>Icon Image</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-left">
+                                    <div class="flex items-center">
+                                        <img class="w-40" :src="showData.iconImage" alt="">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div slot="footer" class="flex items-center justify-between">
+                    <div class="">
+                        <p>Created Date: {{ showData.createdAt }}</p>
+                        <p>Created Date: {{ showData.createdAt }}</p>
+                    </div>
+                    <button @click="showModal=false" class="px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none">Close</button>
+                </div>
+            </Modal>
+
             <!-- DELETING CATEGORY MODAL -->
             <deleteModal />
 
@@ -193,14 +240,20 @@ export default {
                 iconImage: '',
                 categoryName: '',
             },
-            addModal: false,
-            editModal: false,
-            isAdding: false,
-            categories: [],
             editData: {
                 iconImage: '',
                 categoryName: '',
             },
+            showData: {
+                iconImage: '',
+                categoryName: '',
+                createdAt: '',
+            },
+            addModal: false,
+            editModal: false,
+            showModal: false,
+            isAdding: false,
+            categories: [],
             index: -1,
             showDeleteModal: false,
             deleteItem: {},
@@ -213,8 +266,8 @@ export default {
 
     methods: {
         async addCategory() {
-            if (this.data.categoryName.trim()=='') return this.error('Category Name Is Require')
-            if (this.data.iconImage.trim()=='') return this.error('Icon Image Is Require')
+            // if (this.data.categoryName.trim()=='') return this.error('Category Name Is Require')
+            // if (this.data.iconImage.trim()=='') return this.error('Icon Image Is Require')
             this.data.iconImage = `${this.data.iconImage}`
             const res = await this.callApi('post', 'app/create_category', this.data)
             if (res.status === 201) {
@@ -238,8 +291,8 @@ export default {
         },
         // TAG EDITING MODAL
         async editCategory() {
-            if (this.editData.categoryName.trim()=='') return this.error('Category Name Is Require')
-            if (this.editData.iconImage.trim()=='') return this.error('Icon Image Is Require')
+            // if (this.editData.categoryName.trim()=='') return this.error('Category Name Is Require')
+            // if (this.editData.iconImage.trim()=='') return this.error('Icon Image Is Require')
             const res = await this.callApi('post', 'app/edit_category', this.editData)
             if (res.status === 200) {
                 this.categories[this.index].categoryName = this.editData.categoryName
@@ -272,6 +325,18 @@ export default {
             this.editModal = true
             this.index = index
             this.isEditingItem = true
+        },
+        // SHOW VIEW MODAL
+        showViewModal(category, index){
+            let obj = {
+                id: category.id,
+                categoryName: category.categoryName,
+                iconImage: category.iconImage,
+                createdAt: category.CreatedDate,
+            }
+            this.showData = obj
+            this.showModal = true
+            this.index = index
         },
         // DELETE TAG
         showDeletingModal(category, i) {

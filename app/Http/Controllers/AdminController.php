@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Tag;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\CreateAdminUserRequest;
 
 class AdminController extends Controller
 {
@@ -89,4 +92,37 @@ class AdminController extends Controller
         $this->deleteFileFromServer($request->iconImage);
         return $category->where('id', $request->id)->delete($request->validate(['id' => 'required']));
     }
+
+    public function getAdminUsers(User $user)
+    {
+        return $user->orderBy('id', 'desc')->get();
+    }
+
+    public function createAdminUser(CreateAdminUserRequest $request)
+    {
+        return User::create([
+            'fullName' => $request->fullName,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'userType' => $request->userType
+        ]);
+    }
+
+    // public function createAdminUser(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'fullName' => 'required',
+    //         'email' => 'bail|required',
+    //         'password' => 'bail|required|min:6',
+    //         'userType' => 'required',
+    //     ]);
+
+    //     return User::create([
+    //         'fullName' => $request->fullName,
+    //         'email' => $request->email,
+    //         'userType' => $request->userType,
+    //         'password' => Hash::make($request->password),
+    //     ]);
+    // }
+
 }

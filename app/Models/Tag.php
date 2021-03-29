@@ -9,9 +9,10 @@ class Tag extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $appends = ['CreatedDate'];
 
     public function getCreatedDateAttribute()
     {
-        return $this->created_at->diffForHumans();
+        return $this->created_at->toDateTimeString();
     }
 }

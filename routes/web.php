@@ -25,6 +25,9 @@ Route::get('app/get_categories', [AdminController::class, 'getCategories']);
 Route::post('app/edit_category', [AdminController::class, 'editCategory']);
 Route::post('app/delete_category', [AdminController::class, 'deleteCategory']);
 
+Route::get('app/get_adminUsers', [AdminController::class, 'getAdminUsers']);
+Route::post('app/create_adminUser', [AdminController::class, 'createAdminUser']);
+
 Route::get('/', function () {
     return view('welcome');
 });

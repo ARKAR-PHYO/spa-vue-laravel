@@ -22,6 +22,12 @@
                     <div class="">category</div>
                 </router-link>
             </div>
+            <div class="">
+                <router-link to="/adminusers" class="routerLink">
+                    <icon name="tag" class="icon" />
+                    <div class="">Admin Users</div>
+                </router-link>
+            </div>
 
         </div>
     </div>

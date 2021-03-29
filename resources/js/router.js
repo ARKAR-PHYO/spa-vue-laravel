@@ -5,6 +5,7 @@ Vue.use(Router)
 import adminDashboard from './admin/pages/adminDashboard'
 import tag from './admin/pages/tag'
 import category from './admin/pages/category'
+import adminusers from './admin/pages/adminUsers'
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
     {
         path: '/category',
         component: category,
+    },
+
+    {
+        path: '/adminusers',
+        component: adminusers,
     },
 ]
 
