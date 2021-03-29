@@ -6,11 +6,20 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\AuthCheckRequest;
 use App\Http\Requests\CreateAdminUserRequest;
 
 class AdminController extends Controller
 {
+    public function index(AuthCheckRequest $request)
+    {
+
+        return $request->isAuthenticate();
+    }
+
     // TAGS
     public function getTags(Tag $tag)
     {
@@ -137,6 +146,17 @@ class AdminController extends Controller
         $user = User::where('id', $request->id)->update($data);
         return $user;
 
+    }
+
+    public function adminUserLogin(LoginRequest $request)
+    {
+        return $request->loginCheck();
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 
 }

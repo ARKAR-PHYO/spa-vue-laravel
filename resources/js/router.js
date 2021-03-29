@@ -6,6 +6,7 @@ import adminDashboard from './admin/pages/adminDashboard'
 import tag from './admin/pages/tag'
 import category from './admin/pages/category'
 import adminusers from './admin/pages/adminUsers'
+import login from './admin/pages/login'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
     {
         path: '/adminusers',
         component: adminusers,
+    },
+
+    {
+        path: '/login',
+        component: login,
     },
 ]
 

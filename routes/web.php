@@ -28,14 +28,22 @@ Route::post('app/delete_category', [AdminController::class, 'deleteCategory']);
 Route::get('app/get_adminUsers', [AdminController::class, 'getAdminUsers']);
 Route::post('app/create_adminUser', [AdminController::class, 'createAdminUser']);
 Route::post('app/edit_adminUser', [AdminController::class, 'editAdminUser']);
+Route::post('app/edit_adminUser', [AdminController::class, 'editAdminUser']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/dis', function () {
-    return view('dis');
-});
+Route::post('app/adminUserLogin', [AdminController::class, 'adminUserLogin']);
 
-Route::any('{slug}', function() {
-    return view('welcome');
-});
+
+Route::get('logout', [AdminController::class, 'logout']);
+Route::get('/', [AdminController::class, 'index']);
+Route::any('{slug}', [AdminController::class, 'index']);
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/dis', function () {
+//     return view('dis');
+// });
+
+// Route::any('{slug}', function() {
+//     return view('welcome');
+// });
