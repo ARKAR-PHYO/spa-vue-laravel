@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateAdminUserRequest extends FormRequest
@@ -25,7 +26,7 @@ class CreateAdminUserRequest extends FormRequest
     {
         return [
             'fullName' => 'required',
-            'email' => 'bail|required|email',
+            'email' => "bail|required|email|unique:users" .$this->id,
             'password' => 'bail|required|min:6',
             'userType' => 'required',
         ];

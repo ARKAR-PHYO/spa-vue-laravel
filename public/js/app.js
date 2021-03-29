@@ -2108,6 +2108,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2124,16 +2191,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: '',
         userType: 'Admin'
       },
-      addModal: false,
-      editModal: false,
-      isAdding: false,
-      adminUsers: [],
       editData: {
         fullName: '',
         email: '',
-        password: '',
         userType: ''
       },
+      showData: {
+        fullName: '',
+        email: '',
+        password: '',
+        userType: '',
+        createdAt: ''
+      },
+      addModal: false,
+      editModal: false,
+      showModal: false,
+      isAdding: false,
+      adminUsers: [],
       index: -1,
       showDeleteModal: false,
       deleteItem: {},
@@ -2145,7 +2219,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var res;
+        var res, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2168,9 +2242,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.data.userType = '';
                 } else {
                   if (res.status == 422) {
-                    console.log(res.data.errors); // if (res.data.errors.tagName) {
-                    //     this.error(res.data.errors.tagName[0])
-                    // }
+                    for (i in res.data.errors) {
+                      _this.error(res.data.errors[i][0]);
+                    }
                   } else {
                     _this.error();
                   }
@@ -2185,47 +2259,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     // TAG EDITING MODAL
-    editTag: function editTag() {
+    editAdminUser: function editAdminUser() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var res;
+        var res, i;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this2.editData.tagName.trim() == '')) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                return _context2.abrupt("return", _this2.error('Tag Name Is Require'));
+                _context2.next = 2;
+                return _this2.callApi('post', 'app/edit_adminUser', _this2.editData);
 
               case 2:
-                _context2.next = 4;
-                return _this2.callApi('post', 'app/edit_tag', _this2.editData);
-
-              case 4:
                 res = _context2.sent;
 
                 if (res.status === 200) {
-                  _this2.tags[_this2.index].tagName = _this2.editData.tagName;
+                  _this2.adminUsers[_this2.index].fullName = _this2.editData.fullName;
+                  _this2.adminUsers[_this2.index].email = _this2.editData.email;
+                  _this2.adminUsers[_this2.index].userType = _this2.editData.userType;
 
-                  _this2.success('Tag Has Been EDITED Successfully');
+                  _this2.success('Admin User Has Been EDITED Successfully');
 
                   _this2.editModal = false;
-                  _this2.editData.tagName = '';
+                  _this2.data.fullName = '';
+                  _this2.data.email = '';
+                  _this2.data.password = '';
+                  _this2.data.userType = '';
                 } else {
                   if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                      _this2.error(res.data.errors.tagName[0]);
+                    for (i in res.editData.errors) {
+                      _this2.error(res.editData.errors[i][0]);
                     }
                   } else {
                     _this2.error();
                   }
                 }
 
-              case 6:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -2234,13 +2305,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     // SHOW EDIT MODAL
-    showEditModal: function showEditModal(tag, index) {
+    showEditModal: function showEditModal(adminUser, index) {
       var obj = {
-        id: tag.id,
-        tagName: tag.tagName
+        id: adminUser.id,
+        fullName: adminUser.fullName,
+        email: adminUser.email,
+        userType: adminUser.userType
       };
       this.editData = obj;
       this.editModal = true;
+      this.index = index;
+    },
+    // SHOW VIEW MODAL
+    showViewModal: function showViewModal(adminUser, index) {
+      var obj = {
+        id: adminUser.id,
+        fullName: adminUser.fullName,
+        email: adminUser.email,
+        userType: adminUser.userType,
+        createdAt: adminUser.CreatedDate
+      };
+      this.showData = obj;
+      this.showModal = true;
       this.index = index;
     },
     // DELETE TAG
@@ -69178,7 +69264,12 @@ var render = function() {
                                     "div",
                                     {
                                       staticClass:
-                                        "w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                        "w-4 mr-2 transform hover:text-purple-500 hover:scale-110",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.showViewModal(adminUser, i)
+                                        }
+                                      }
                                     },
                                     [
                                       _c(
@@ -69223,7 +69314,7 @@ var render = function() {
                                         "w-4 mr-2 transform hover:text-purple-500 hover:scale-110",
                                       on: {
                                         click: function($event) {
-                                          return _vm.showEditModal(_vm.tag, i)
+                                          return _vm.showEditModal(adminUser, i)
                                         }
                                       }
                                     },
@@ -69465,7 +69556,9 @@ var render = function() {
                   _vm._v(" "),
                   _c("option", { attrs: { value: "Editor" } }, [
                     _vm._v("Editor")
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "User" } }, [_vm._v("User")])
                 ]
               )
             ]),
@@ -69502,7 +69595,140 @@ var render = function() {
           "Modal",
           {
             attrs: {
-              title: "Edit Tag",
+              title: "Show Admin User",
+              closable: false,
+              "mask-closable": false
+            },
+            model: {
+              value: _vm.showModal,
+              callback: function($$v) {
+                _vm.showModal = $$v
+              },
+              expression: "showModal"
+            }
+          },
+          [
+            _c("div", {}, [
+              _c("table", { staticClass: "w-full table-auto min-w-max" }, [
+                _c(
+                  "tbody",
+                  { staticClass: "text-sm font-light text-gray-600" },
+                  [
+                    _c(
+                      "tr",
+                      {
+                        staticClass:
+                          "border-b border-gray-200 hover:bg-gray-100"
+                      },
+                      [
+                        _c(
+                          "td",
+                          {
+                            staticClass: "px-3 py-3 text-left whitespace-nowrap"
+                          },
+                          [
+                            _c("div", { staticClass: "flex items-center" }, [
+                              _c("span", [_vm._v("Name")])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "px-6 py-3 text-left" }, [
+                          _c("div", { staticClass: "flex items-center" }, [
+                            _c("span", [_vm._v(_vm._s(_vm.showData.fullName))])
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      {
+                        staticClass:
+                          "border-b border-gray-200 hover:bg-gray-100"
+                      },
+                      [
+                        _c(
+                          "td",
+                          {
+                            staticClass: "px-3 py-3 text-left whitespace-nowrap"
+                          },
+                          [
+                            _c("div", { staticClass: "flex items-center" }, [
+                              _c("span", [_vm._v("Email")])
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "px-6 py-3 text-left" }, [
+                          _c("div", { staticClass: "flex items-center" }, [
+                            _c("span", [_vm._v(_vm._s(_vm.showData.email))])
+                          ])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("tr", { staticClass: "hover:bg-gray-100" }, [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "px-3 py-3 text-left whitespace-nowrap"
+                        },
+                        [
+                          _c("div", { staticClass: "flex items-center" }, [
+                            _c("span", [_vm._v("User Type")])
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "px-6 py-3 text-left" }, [
+                        _c("div", { staticClass: "flex items-center" }, [
+                          _c("span", [_vm._v(_vm._s(_vm.showData.userType))])
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "flex items-center justify-between",
+                attrs: { slot: "footer" },
+                slot: "footer"
+              },
+              [
+                _c("div", {}, [
+                  _c("p", [
+                    _vm._v("Created Date: " + _vm._s(_vm.showData.createdAt))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none",
+                    on: {
+                      click: function($event) {
+                        _vm.showModal = false
+                      }
+                    }
+                  },
+                  [_vm._v("Close")]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "Modal",
+          {
+            attrs: {
+              title: "Edit Admin User",
               closable: false,
               "mask-closable": false
             },
@@ -69515,29 +69741,121 @@ var render = function() {
             }
           },
           [
-            _c("div", {}, [
+            _c("div", { staticClass: "space-y-3" }, [
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.editData.tagName,
-                    expression: "editData.tagName"
+                    value: _vm.editData.fullName,
+                    expression: "editData.fullName"
                   }
                 ],
                 staticClass:
                   "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
-                attrs: { type: "text", placeholder: "Edit Tag Name" },
-                domProps: { value: _vm.editData.tagName },
+                attrs: { type: "text", placeholder: "Enter Full Name" },
+                domProps: { value: _vm.editData.fullName },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.editData, "tagName", $event.target.value)
+                    _vm.$set(_vm.editData, "fullName", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editData.email,
+                    expression: "editData.email"
+                  }
+                ],
+                staticClass:
+                  "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
+                attrs: { type: "email", placeholder: "Enter Email" },
+                domProps: { value: _vm.editData.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.editData, "email", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editData.password,
+                    expression: "editData.password"
+                  }
+                ],
+                staticClass:
+                  "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
+                attrs: { type: "password", placeholder: "Enter Password" },
+                domProps: { value: _vm.editData.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.editData, "password", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editData.userType,
+                      expression: "editData.userType"
+                    }
+                  ],
+                  staticClass:
+                    "w-full p-2 border border-gray-700 rounded-md focus:outline-none",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.editData,
+                        "userType",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "Admin" } }, [
+                    _vm._v("Admin")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Editor" } }, [
+                    _vm._v("Editor")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "User" } }, [_vm._v("User")])
+                ]
+              )
             ]),
             _vm._v(" "),
             _c("div", { attrs: { slot: "footer" }, slot: "footer" }, [
@@ -69559,8 +69877,8 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "px-4 py-1 transform bg-green-300 rounded-md hover:scale-105 focus:outline-none",
-                  on: { click: _vm.editTag }
+                    "px-4 py-1 transform bg-green-300 rounded-md focus:outline-none hover:scale-105",
+                  on: { click: _vm.editAdminUser }
                 },
                 [_vm._v("Update")]
               )

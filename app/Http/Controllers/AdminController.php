@@ -95,34 +95,48 @@ class AdminController extends Controller
 
     public function getAdminUsers(User $user)
     {
-        return $user->orderBy('id', 'desc')->get();
+        // return $user->orderBy('id', 'desc')->get();
+        return $user->where('userType', '!=', 'User')->get();
     }
 
-    public function createAdminUser(CreateAdminUserRequest $request)
+    public function createAdminUser(Request $request, User $user)
     {
-        return User::create([
+        // validate request
+        $this->validate($request, [
+            'fullName' => 'required',
+            'email' => 'bail|required|email|unique:users',
+            'password' => 'bail|required|min:6',
+            'userType' => 'required',
+        ]);
+        return $user->create([
             'fullName' => $request->fullName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'userType' => $request->userType
+            'userType' => $request->userType,
         ]);
     }
 
-    // public function createAdminUser(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'fullName' => 'required',
-    //         'email' => 'bail|required',
-    //         'password' => 'bail|required|min:6',
-    //         'userType' => 'required',
-    //     ]);
+    public function editAdminUser(Request $request, User $user)
+    {
+        // validate request
+        $this->validate($request, [
+            'fullName' => 'required',
+            'email' => "bail|required|email|unique:users,email,$request->id",
+            'password' => 'min:6',
+            'userType' => 'required',
+        ]);
+        $data = [
+            'fullName' => $request->fullName,
+            'email' => $request->email,
+            'userType' => $request->userType,
+        ];
+        if ($request->password) {
+            $password = Hash::make($request->password);
+            $data ['password'] = $password;
+        }
+        $user = User::where('id', $request->id)->update($data);
+        return $user;
 
-    //     return User::create([
-    //         'fullName' => $request->fullName,
-    //         'email' => $request->email,
-    //         'userType' => $request->userType,
-    //         'password' => Hash::make($request->password),
-    //     ]);
-    // }
+    }
 
 }

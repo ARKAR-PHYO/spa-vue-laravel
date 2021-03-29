@@ -53,14 +53,14 @@
                             <td class="px-6 py-3 text-center">
                                 <div class="flex justify-center item-center">
                                     <!-- VIEW BUTTON -->
-                                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                    <div @click="showViewModal(adminUser, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
                                     </div>
                                     <!-- EDIT BUTTON -->
-                                    <div @click="showEditModal(tag, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                    <div @click="showEditModal(adminUser, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                         </svg>
@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <!-- TAG ADDING MODAL -->
+            <!-- ADMIN USER ADDING MODAL -->
             <Modal
                 v-model="addModal"
                 title="Add Admin User"
@@ -101,6 +101,7 @@
                     <select v-model="data.userType" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
                         <option value="Admin">Admin</option>
                         <option value="Editor">Editor</option>
+                        <option value="User">User</option>
                     </select>
                 </div>
 
@@ -110,20 +111,86 @@
                 </div>
             </Modal>
 
-            <!-- TAG EDITING MODAL -->
+            <!-- VIEWING ADMIN USER MODAL -->
             <Modal
-                v-model="editModal"
-                title="Edit Tag"
+                v-model="showModal"
+                title="Show Admin User"
                 :closable="false"
                 :mask-closable="false"
                 >
                 <div class="">
-                    <input v-model="editData.tagName" type="text" placeholder="Edit Tag Name" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                    <table class="w-full table-auto min-w-max">
+                        <tbody class="text-sm font-light text-gray-600">
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="px-3 py-3 text-left whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span>Name</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-left">
+                                    <div class="flex items-center">
+                                        <span>{{ showData.fullName }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="px-3 py-3 text-left whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span>Email</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-left">
+                                    <div class="flex items-center">
+                                        <span>{{ showData.email }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-3 py-3 text-left whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <span>User Type</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-3 text-left">
+                                    <div class="flex items-center">
+                                        <span>{{ showData.userType }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div slot="footer" class="flex items-center justify-between">
+                    <div class="">
+                        <p>Created Date: {{ showData.createdAt }}</p>
+                    </div>
+                    <button @click="showModal=false" class="px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none">Close</button>
+                </div>
+            </Modal>
+
+            <!-- ADMIN USER EDITING MODAL -->
+            <Modal
+                v-model="editModal"
+                title="Edit Admin User"
+                :closable="false"
+                :mask-closable="false"
+                >
+                <div class="space-y-3">
+                    <input v-model="editData.fullName" type="text" placeholder="Enter Full Name" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                    <input v-model="editData.email" type="email" placeholder="Enter Email" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                    <input v-model="editData.password" type="password" placeholder="Enter Password" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                    <select v-model="editData.userType" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                        <!-- <option value="" disabled selected>Select User Type</option> -->
+                        <option value="Admin">Admin</option>
+                        <option value="Editor">Editor</option>
+                        <option value="User">User</option>
+                    </select>
                 </div>
 
                 <div slot="footer" class="">
                     <button @click="editModal=false" class="px-4 py-1 transform border border-gray-700 rounded-md hover:scale-105 focus:outline-none">Close</button>
-                    <button @click="editTag" class="px-4 py-1 transform bg-green-300 rounded-md hover:scale-105 focus:outline-none">Update</button>
+                    <button @click="editAdminUser" class="px-4 py-1 transform bg-green-300 rounded-md focus:outline-none hover:scale-105">Update</button>
                 </div>
             </Modal>
 
@@ -153,16 +220,23 @@ export default {
                 password: '',
                 userType: 'Admin',
             },
-            addModal: false,
-            editModal: false,
-            isAdding: false,
-            adminUsers: [],
             editData: {
+                fullName: '',
+                email: '',
+                userType: '',
+            },
+            showData: {
                 fullName: '',
                 email: '',
                 password: '',
                 userType: '',
+                createdAt: '',
             },
+            addModal: false,
+            editModal: false,
+            showModal: false,
+            isAdding: false,
+            adminUsers: [],
             index: -1,
             showDeleteModal: false,
             deleteItem: {},
@@ -187,10 +261,9 @@ export default {
                 this.data.userType = ''
             }else{
                 if (res.status == 422) {
-                    console.log(res.data.errors)
-                    // if (res.data.errors.tagName) {
-                    //     this.error(res.data.errors.tagName[0])
-                    // }
+                    for(let i in res.data.errors){
+                        this.error(res.data.errors[i][0])
+                    }
                 }else{
                     this.error()
                 }
@@ -198,18 +271,23 @@ export default {
         },
 
         // TAG EDITING MODAL
-        async editTag() {
-            if (this.editData.tagName.trim()=='') return this.error('Tag Name Is Require')
-            const res = await this.callApi('post', 'app/edit_tag', this.editData)
+        async editAdminUser() {
+            // if (this.editData.tagName.trim()=='') return this.error('Tag Name Is Require')
+            const res = await this.callApi('post', 'app/edit_adminUser', this.editData)
             if (res.status === 200) {
-                this.tags[this.index].tagName = this.editData.tagName
-                this.success('Tag Has Been EDITED Successfully')
+                this.adminUsers[this.index].fullName = this.editData.fullName
+                this.adminUsers[this.index].email = this.editData.email
+                this.adminUsers[this.index].userType = this.editData.userType
+                this.success('Admin User Has Been EDITED Successfully')
                 this.editModal = false
-                this.editData.tagName = ''
+                this.data.fullName = ''
+                this.data.email = ''
+                this.data.password = ''
+                this.data.userType = ''
             }else{
                 if (res.status == 422) {
-                    if (res.data.errors.tagName) {
-                        this.error(res.data.errors.tagName[0])
+                    for(let i in res.editData.errors){
+                        this.error(res.editData.errors[i][0])
                     }
                 }else{
                     this.error()
@@ -218,13 +296,29 @@ export default {
         },
 
         // SHOW EDIT MODAL
-        showEditModal(tag, index) {
+        showEditModal(adminUser, index) {
             let obj = {
-                id: tag.id,
-                tagName: tag.tagName
+                id: adminUser.id,
+                fullName: adminUser.fullName,
+                email: adminUser.email,
+                userType: adminUser.userType,
             }
             this.editData = obj
             this.editModal = true
+            this.index = index
+        },
+
+        // SHOW VIEW MODAL
+        showViewModal(adminUser, index){
+            let obj = {
+                id: adminUser.id,
+                fullName: adminUser.fullName,
+                email: adminUser.email,
+                userType: adminUser.userType,
+                createdAt: adminUser.CreatedDate,
+            }
+            this.showData = obj
+            this.showModal = true
             this.index = index
         },
 
