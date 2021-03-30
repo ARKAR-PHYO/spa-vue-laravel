@@ -3,12 +3,12 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import adminDashboard from './admin/pages/adminDashboard'
-import tag from './admin/pages/tag'
-import category from './admin/pages/category'
+import tags from './admin/pages/tag'
+import categories from './admin/pages/category'
 import adminusers from './admin/pages/Auth/adminUsers'
 import login from './admin/pages/Auth/login'
-import role from './admin/pages/Auth/role'
-import assignRole from './admin/pages/Auth/assignRole'
+import roles from './admin/pages/Auth/role'
+import assignRoles from './admin/pages/Auth/assignRole'
 
 const routes = [
     {
@@ -17,14 +17,14 @@ const routes = [
         name: '/',
     },
     {
-        path: '/tag',
-        component: tag,
+        path: '/tags',
+        component: tags,
         name: 'tags',
     },
     {
-        path: '/category',
-        component: category,
-        name: 'category',
+        path: '/categories',
+        component: categories,
+        name: 'categories',
     },
 
     {
@@ -40,15 +40,15 @@ const routes = [
     },
 
     {
-        path: '/role',
-        component: role,
-        name: 'role',
+        path: '/roles',
+        component: roles,
+        name: 'roles',
     },
 
     {
-        path: '/assignRole',
-        component: assignRole,
-        name: 'assignRole',
+        path: '/assignRoles',
+        component: assignRoles,
+        name: 'assignRoles',
     },
 ]
 

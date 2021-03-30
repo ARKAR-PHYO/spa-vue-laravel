@@ -11,15 +11,15 @@
                 </router-link>
             </div>
             <div class="">
-                <router-link to="/tag" class="routerLink">
+                <router-link to="/tags" class="routerLink">
                     <icon name="tag" class="icon" />
                     <div class="">Tag</div>
                 </router-link>
             </div>
             <div class="">
-                <router-link to="/category" class="routerLink">
+                <router-link to="/categories" class="routerLink">
                     <icon name="tag" class="icon" />
-                    <div class="">category</div>
+                    <div class="">Categories</div>
                 </router-link>
             </div>
             <div class="">
@@ -29,13 +29,13 @@
                 </router-link>
             </div>
             <div class="">
-                <router-link to="/role" class="routerLink">
+                <router-link to="/roles" class="routerLink">
                     <icon name="tag" class="icon" />
                     <div class="">Role</div>
                 </router-link>
             </div>
             <div class="">
-                <router-link to="/assignRole" class="routerLink">
+                <router-link to="/assignRoles" class="routerLink">
                     <icon name="tag" class="icon" />
                     <div class="">Assign Role</div>
                 </router-link>

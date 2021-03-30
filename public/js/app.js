@@ -2481,14 +2481,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         write: false,
         update: false,
         "delete": false,
-        name: 'tag'
+        name: 'tags'
       }, {
         resourceName: 'Category',
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: 'category'
+        name: 'categories'
       }, {
         resourceName: 'Admin users',
         read: false,
@@ -2502,14 +2502,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         write: false,
         update: false,
         "delete": false,
-        name: 'role'
+        name: 'roles'
       }, {
         resourceName: 'Assign Role',
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: 'assignRole'
+        name: 'assignRoles'
       }, {
         resourceName: 'Home',
         read: false,
@@ -2524,14 +2524,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         write: false,
         update: false,
         "delete": false,
-        name: 'tag'
+        name: 'tags'
       }, {
         resourceName: 'Category',
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: 'category'
+        name: 'categories'
       }, {
         resourceName: 'Admin users',
         read: false,
@@ -2545,14 +2545,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         write: false,
         update: false,
         "delete": false,
-        name: 'role'
+        name: 'roles'
       }, {
         resourceName: 'Assign Role',
         read: false,
         write: false,
         update: false,
         "delete": false,
-        name: 'assignRole'
+        name: 'assignRoles'
       }, {
         resourceName: 'Home',
         read: false,
@@ -4516,13 +4516,13 @@ var routes = [{
   component: _admin_pages_adminDashboard__WEBPACK_IMPORTED_MODULE_2__.default,
   name: '/'
 }, {
-  path: '/tag',
+  path: '/tags',
   component: _admin_pages_tag__WEBPACK_IMPORTED_MODULE_3__.default,
   name: 'tags'
 }, {
-  path: '/category',
+  path: '/categories',
   component: _admin_pages_category__WEBPACK_IMPORTED_MODULE_4__.default,
-  name: 'category'
+  name: 'categories'
 }, {
   path: '/adminusers',
   component: _admin_pages_Auth_adminUsers__WEBPACK_IMPORTED_MODULE_5__.default,
@@ -4532,13 +4532,13 @@ var routes = [{
   component: _admin_pages_Auth_login__WEBPACK_IMPORTED_MODULE_6__.default,
   name: 'login'
 }, {
-  path: '/role',
+  path: '/roles',
   component: _admin_pages_Auth_role__WEBPACK_IMPORTED_MODULE_7__.default,
-  name: 'role'
+  name: 'roles'
 }, {
-  path: '/assignRole',
+  path: '/assignRoles',
   component: _admin_pages_Auth_assignRole__WEBPACK_IMPORTED_MODULE_8__.default,
-  name: 'assignRole'
+  name: 'assignRoles'
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
@@ -74110,7 +74110,7 @@ var render = function() {
         [
           _c(
             "router-link",
-            { staticClass: "routerLink", attrs: { to: "/tag" } },
+            { staticClass: "routerLink", attrs: { to: "/tags" } },
             [
               _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
               _vm._v(" "),
@@ -74128,11 +74128,11 @@ var render = function() {
         [
           _c(
             "router-link",
-            { staticClass: "routerLink", attrs: { to: "/category" } },
+            { staticClass: "routerLink", attrs: { to: "/categories" } },
             [
               _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
               _vm._v(" "),
-              _c("div", {}, [_vm._v("category")])
+              _c("div", {}, [_vm._v("Categories")])
             ],
             1
           )
@@ -74164,7 +74164,7 @@ var render = function() {
         [
           _c(
             "router-link",
-            { staticClass: "routerLink", attrs: { to: "/role" } },
+            { staticClass: "routerLink", attrs: { to: "/roles" } },
             [
               _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
               _vm._v(" "),
@@ -74182,7 +74182,7 @@ var render = function() {
         [
           _c(
             "router-link",
-            { staticClass: "routerLink", attrs: { to: "/assignRole" } },
+            { staticClass: "routerLink", attrs: { to: "/assignRoles" } },
             [
               _c("icon", { staticClass: "icon", attrs: { name: "tag" } }),
               _vm._v(" "),
