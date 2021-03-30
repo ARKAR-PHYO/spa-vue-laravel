@@ -1,3 +1,5 @@
+import { mapGetters } from 'vuex'
+
 export default{
     data() {
         return {
@@ -48,6 +50,44 @@ export default{
                 body: body,
                 icon: '<svg class="w-10 h-10 fill-current xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 1l-12 22h24l-12-22zm-1 8h2v7h-2v-7zm1 11.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>'
             });
+        },
+
+        checkUserPermission(key) {
+            if(!this.userPermission) return true
+            let isPermitted = false
+            for(let data of this.userPermission) {
+                if(this.$route.name == data.name) {
+                    if(data[key]) {
+                        isPermitted = true
+                        break;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            return isPermitted
+        },
+    },
+
+    computed: {
+        ...mapGetters({
+            'userPermission' : 'getUserPermission'
+        }),
+
+        isReadPermitted(){
+            return this.checkUserPermission('read')
+        },
+
+        isWritePermitted(){
+            return this.checkUserPermission('write')
+        },
+
+        isUpdatePermitted(){
+            return this.checkUserPermission('update')
+        },
+
+        isDeletePermitted(){
+            return this.checkUserPermission('delete')
         },
     },
 }

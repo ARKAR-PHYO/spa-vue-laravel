@@ -5,12 +5,12 @@
                     <logo />
                 </a>
                 <!-- <mainmenu :user="this.user" /> --> <!-- PASS USER PROP IF SMTH WRONG WITH MENU -->
-                <mainmenu :user="this.user" />
+                <mainmenu :user="this.user" :permission="this.permission" />
             </div>
             <div class="flex flex-col w-full">
                 <!-- TOP NAV BAR -->
                 <div v-if="$store.state.user" class="flex flex-row items-center h-16 px-12 py-6 bg-gray-100 shadow-md">
-                    <div class="flex-auto">Super Admin</div>
+                    <div class="flex-auto">{{ role.roleName }}</div>
                     <div class="flex flex-row items-center space-x-4">
                         <icon name="bell" class="w-5 h-5" />
                         <dropdown>
@@ -54,6 +54,8 @@ import mainFooter from './mainFooter';
 export default {
     props: [
         'user',
+        'role',
+        'permission',
     ],
     components: {
         // icon,
@@ -71,7 +73,8 @@ export default {
     },
 
     created() {
-        this.$store.commit('updateUser', this.user)
+        this.$store.commit('setUpdateUser', this.user)
+        this.$store.commit('setUserPermission', this.permission)
     },
 }
 </script>

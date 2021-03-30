@@ -14,7 +14,7 @@
     <body class="antialiased">
         <div id="app">
             @if (Auth::check())
-                <mainapp :user="{{ Auth::user() }}" />
+                <mainapp :user="{{ Auth::user() }}" :role="{{ Auth::user()->role }}" :permission="{{ Auth::user()->role->permission }}" />
             @else
                 <mainapp :user="false" />
 
