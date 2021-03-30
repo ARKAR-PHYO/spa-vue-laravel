@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Logo from '../shared/Logo'
+import Logo from '../../shared/Logo'
 
 export default {
     components: {
@@ -49,6 +49,7 @@ export default {
 
             if (res.status === 200) {
                 this.success(res.data.msg)
+                window.location = '/'
             }else if(res.status == 422){
                 for(let i in res.data.errors){
                     this.error(res.data.errors[i][0])

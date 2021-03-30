@@ -28,6 +28,18 @@
                     <div class="">Admin Users</div>
                 </router-link>
             </div>
+            <div class="">
+                <router-link to="/role" class="routerLink">
+                    <icon name="tag" class="icon" />
+                    <div class="">Role</div>
+                </router-link>
+            </div>
+            <div class="">
+                <router-link to="/assignRole" class="routerLink">
+                    <icon name="tag" class="icon" />
+                    <div class="">Assign Role</div>
+                </router-link>
+            </div>
 
         </div>
     </div>
@@ -36,8 +48,15 @@
 import icon from './Icon'
 
 export default {
+    // props: [
+    //     'user',
+    // ],
     components: {
         icon,
-    }
+    },
+
+    // created() {
+    //     this.$store.commit('updateUser', this.user)
+    // },
 }
 </script>

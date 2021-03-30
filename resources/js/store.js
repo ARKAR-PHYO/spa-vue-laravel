@@ -4,7 +4,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        counter: 100,
         deleteModalObj: {
             showDeleteModal: false,
             deleteUrl: '',
@@ -12,6 +11,7 @@ export default new Vuex.Store({
             deletingIndex: -1,
             isDeleted: false,
         },
+        user: false,
     },
 
     getters: {
@@ -34,6 +34,10 @@ export default new Vuex.Store({
 
         setDeletingModalObj(state, data) {
             state.deleteModalObj = data
+        },
+
+        updateUser(state, data) {
+            state.user = data
         },
     },
 })

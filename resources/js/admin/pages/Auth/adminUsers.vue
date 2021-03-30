@@ -66,7 +66,7 @@
                                         </svg>
                                     </div>
                                     <!-- DELETE BUTTON -->
-                                    <div @click="showDeletingModal(tag, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                    <div @click="showDeletingModal(adminUser, i)" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
@@ -98,10 +98,9 @@
                     <input v-model="data.fullName" type="text" placeholder="Enter Full Name" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
                     <input v-model="data.email" type="email" placeholder="Enter Email" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
                     <input v-model="data.password" type="password" placeholder="Enter Password" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
-                    <select v-model="data.userType" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
-                        <option value="Admin">Admin</option>
-                        <option value="Editor">Editor</option>
-                        <option value="User">User</option>
+                    <select v-model="data.role_id" type="text" placeholder="Roles" name="roles" id="roles" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                        <option class="text-gray-400" :value="null" disabled selected>Select Role</option>
+                        <option v-for="(role, i) in roles" :key="i" v-if="roles.length" :value="role.id">{{ role.roleName }}</option>
                     </select>
                 </div>
 
@@ -180,11 +179,9 @@
                     <input v-model="editData.fullName" type="text" placeholder="Enter Full Name" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
                     <input v-model="editData.email" type="email" placeholder="Enter Email" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
                     <input v-model="editData.password" type="password" placeholder="Enter Password" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
-                    <select v-model="editData.userType" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
-                        <!-- <option value="" disabled selected>Select User Type</option> -->
-                        <option value="Admin">Admin</option>
-                        <option value="Editor">Editor</option>
-                        <option value="User">User</option>
+                    <select v-model="editData.role_id" type="text" placeholder="Roles" name="roles" id="roles" class="w-full p-2 border border-gray-700 rounded-md focus:outline-none">
+                        <option class="text-gray-400" :value="null" disabled selected>Select Role</option>
+                        <option v-for="(role, i) in roles" :key="i" v-if="roles.length" :value="role.id">{{ role.roleName }}</option>
                     </select>
                 </div>
 
@@ -193,17 +190,14 @@
                     <button @click="editAdminUser" class="px-4 py-1 transform bg-green-300 rounded-md focus:outline-none hover:scale-105">Update</button>
                 </div>
             </Modal>
-
-            <!-- TAG DELETING MODAL -->
-            <deleteModal />
         </div>
     </div>
 </template>
 
 <script>
 
-import Icon from './../shared/Icon'
-import deleteModal from '../components/deleteModal'
+import Icon from './../../shared/Icon'
+import deleteModal from '../../components/deleteModal'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -218,12 +212,13 @@ export default {
                 fullName: '',
                 email: '',
                 password: '',
-                userType: 'Admin',
+                role_id: null,
             },
             editData: {
                 fullName: '',
                 email: '',
                 userType: '',
+                role_id: null,
             },
             showData: {
                 fullName: '',
@@ -232,15 +227,12 @@ export default {
                 userType: '',
                 createdAt: '',
             },
+            adminUsers: [],
+            roles: [],
             addModal: false,
             editModal: false,
             showModal: false,
             isAdding: false,
-            adminUsers: [],
-            index: -1,
-            showDeleteModal: false,
-            deleteItem: {},
-            deletingIndex: -1,
         }
     },
 
@@ -258,7 +250,7 @@ export default {
                 this.data.fullName = ''
                 this.data.email = ''
                 this.data.password = ''
-                this.data.userType = ''
+                this.data.role_id = ''
             }else{
                 if (res.status == 422) {
                     for(let i in res.data.errors){
@@ -270,20 +262,19 @@ export default {
             }
         },
 
-        // TAG EDITING MODAL
+        // EDITING ADMIN USER MODAL
         async editAdminUser() {
-            // if (this.editData.tagName.trim()=='') return this.error('Tag Name Is Require')
             const res = await this.callApi('post', 'app/edit_adminUser', this.editData)
             if (res.status === 200) {
                 this.adminUsers[this.index].fullName = this.editData.fullName
                 this.adminUsers[this.index].email = this.editData.email
-                this.adminUsers[this.index].userType = this.editData.userType
+                this.adminUsers[this.index].role_id = this.editData.role_id
                 this.success('Admin User Has Been EDITED Successfully')
                 this.editModal = false
                 this.data.fullName = ''
                 this.data.email = ''
                 this.data.password = ''
-                this.data.userType = ''
+                this.data.role_id = ''
             }else{
                 if (res.status == 422) {
                     for(let i in res.editData.errors){
@@ -301,7 +292,7 @@ export default {
                 id: adminUser.id,
                 fullName: adminUser.fullName,
                 email: adminUser.email,
-                userType: adminUser.userType,
+                role_id: adminUser.role_id,
             }
             this.editData = obj
             this.editModal = true
@@ -321,38 +312,22 @@ export default {
             this.showModal = true
             this.index = index
         },
-
-        // DELETE TAG
-        showDeletingModal(tag, i) {
-            const deleteModalObj = {
-                showDeleteModal: true,
-                deleteUrl: 'app/delete_tag',
-                data: tag,
-                deletingIndex: i,
-                isDeleted: false,
-            }
-            this.$store.commit('setDeletingModalObj', deleteModalObj)
-        },
     },
 
     async created() {
-        const res = await this.callApi('get', 'app/get_adminUsers')
+        const [res, resRole] = await Promise.all([
+            this.callApi('get', 'app/get_adminUsers'),
+            this.callApi('get', 'app/get_roles')
+        ])
         if (res.status === 200) {
             this.adminUsers = res.data
         }else{
             this.error()
         }
-    },
-
-    computed : {
-		...mapGetters(['getDeleteModalObj'])
-	},
-
-    watch: {
-        getDeleteModalObj(obj){
-            if (obj.isDeleted) {
-                this.tags.splice(obj.deletingIndex,1)
-            }
+        if (resRole.status === 200) {
+            this.roles = resRole.data
+        }else{
+            this.error()
         }
     },
 }

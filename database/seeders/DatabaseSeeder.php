@@ -21,6 +21,12 @@ class DatabaseSeeder extends Seeder
             'fullName' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('password'),
+            'role_id' => '1',
+            'created_at' => now(),
+        ]);
+
+        DB::table('roles')->insert([
+            'roleName' => 'Admin',
             'created_at' => now(),
         ]);
     }

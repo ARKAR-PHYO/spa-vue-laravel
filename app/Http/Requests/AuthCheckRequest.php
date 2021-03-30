@@ -38,13 +38,32 @@ class AuthCheckRequest extends FormRequest
 
             return view('welcome');
         }
-        if (Auth::user()->userType == 'User') {
+        $user = Auth::user();
+        if ($user->userType == 'User') {
             return redirect('/login');
         }
         if ($this->path() == 'login') {
             return redirect('/');
         }
 
+        return $this->checkForPermission($user);
+        return view('errors.notfound');
         return view('welcome');
     }
+    public function checkForPermission($user)
+    {
+        $permission = json_decode($user->role->permission);
+        $hasPermission = false;
+        foreach($permission as $p){
+            if ($p->name == $this->path()) {
+                if ($p->read) {
+                    $hasPermission = true;
+                }
+            }
+        }
+        if ($hasPermission) return view('welcome');
+        return view('errors.notfound');
+
+    }
+
 }

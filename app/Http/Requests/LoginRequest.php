@@ -33,7 +33,7 @@ class LoginRequest extends FormRequest
     public function loginCheck()
     {
         if (Auth::attempt($this->only('email', 'password'))) {
-            if (Auth::user()->userType == 'User') {
+            if (Auth::user()->role->isAdmin == 0) {
                 Auth::logout();
                 return response()->json([
                     'msg' => 'You are not allow'

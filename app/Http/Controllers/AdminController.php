@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -14,11 +15,24 @@ use App\Http\Requests\CreateAdminUserRequest;
 
 class AdminController extends Controller
 {
+    // AUTHENTICATION
     public function index(AuthCheckRequest $request)
     {
 
         return $request->isAuthenticate();
     }
+
+    public function adminUserLogin(LoginRequest $request)
+    {
+        return $request->loginCheck();
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
+    // AUTHENTICATION END
 
     // TAGS
     public function getTags(Tag $tag)
@@ -45,7 +59,7 @@ class AdminController extends Controller
     {
         return $tag->where('id', $request->id)->delete($request->validate(['id' => 'required']));
     }
-    // TAG END
+    // TAGS END
 
     // IMAGE UPLOAD CATEGORY
     public function upload(Request $request)
@@ -56,7 +70,6 @@ class AdminController extends Controller
         return $picName;
     }
 
-    // DELETE IMAGE
     public function deleteImage(Request $request)
     {
         $fileName = $request->imageName;
@@ -73,6 +86,13 @@ class AdminController extends Controller
             @unlink($filePath);
         }
     }
+    // IMAGE UPLOAD CATEGORY END
+
+    // CATEGORIES
+    public function getCategories(Category $category)
+    {
+        return $category->orderBy('id', 'desc')->get();
+    }
 
     public function createCategory(Request $request, Category $category)
     {
@@ -80,11 +100,6 @@ class AdminController extends Controller
             'categoryName' => 'required',
             'iconImage' => 'required'
         ]));
-    }
-
-    public function getCategories(Category $category)
-    {
-        return $category->orderBy('id', 'desc')->get();
     }
 
     public function editCategory(Request $request, Category $category)
@@ -101,11 +116,14 @@ class AdminController extends Controller
         $this->deleteFileFromServer($request->iconImage);
         return $category->where('id', $request->id)->delete($request->validate(['id' => 'required']));
     }
+    // CATEGORIES ENDS
 
+    // ADMIN USER
     public function getAdminUsers(User $user)
     {
         // return $user->orderBy('id', 'desc')->get();
-        return $user->where('userType', '!=', 'User')->get();
+        // return $user->orderBy('id', 'desc')->where('userType', '!=', 'User')->get();
+        return $user->orderBy('id', 'desc')->get();
     }
 
     public function createAdminUser(Request $request, User $user)
@@ -115,13 +133,13 @@ class AdminController extends Controller
             'fullName' => 'required',
             'email' => 'bail|required|email|unique:users',
             'password' => 'bail|required|min:6',
-            'userType' => 'required',
+            'role_id' => 'required',
         ]);
         return $user->create([
             'fullName' => $request->fullName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'userType' => $request->userType,
+            'role_id' => $request->role_id,
         ]);
     }
 
@@ -132,12 +150,12 @@ class AdminController extends Controller
             'fullName' => 'required',
             'email' => "bail|required|email|unique:users,email,$request->id",
             'password' => 'min:6',
-            'userType' => 'required',
+            'role_id' => 'required',
         ]);
         $data = [
             'fullName' => $request->fullName,
             'email' => $request->email,
-            'userType' => $request->userType,
+            'role_id' => $request->role_id,
         ];
         if ($request->password) {
             $password = Hash::make($request->password);
@@ -147,16 +165,40 @@ class AdminController extends Controller
         return $user;
 
     }
+    // ADMIN USER ENDS
 
-    public function adminUserLogin(LoginRequest $request)
+    // ROLE
+    public function getRoles(Role $role)
     {
-        return $request->loginCheck();
+        return $role->get();
     }
 
-    public function logout()
+    public function createRole(Request $request, Role $role)
     {
-        Auth::logout();
-        return redirect('/login');
+        return $role->create($request->validate([
+            'roleName' => 'required'
+        ]));
     }
 
+    public function editRole(Request $request, Role $role)
+    {
+        return $role->where('id', $request->id)->update($request->validate([
+            'roleName' => 'required',
+            'id' => 'required'
+        ]));
+    }
+
+    public function deleteRole(Request $request, Role $role)
+    {
+        return $role->where('id', $request->id)->delete($request->validate(['id' => 'required']));
+    }
+
+    public function assignRoles(Request $request, Role $role)
+    {
+        return $role->where('id', $request->id)->update($request->validate([
+            'permission' => 'required',
+            'id' => 'required'
+        ]));
+    }
+    // ROLE ENDS
 }

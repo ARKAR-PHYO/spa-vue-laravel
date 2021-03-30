@@ -13,7 +13,12 @@
     </head>
     <body class="antialiased">
         <div id="app">
-            <mainapp />
+            @if (Auth::check())
+                <mainapp :user="{{ Auth::user() }}" />
+            @else
+                <mainapp :user="false" />
+
+            @endif
         </div>
         {{-- SCRIPTS --}}
         <script src="{{ mix('js/app.js') }}"></script>
