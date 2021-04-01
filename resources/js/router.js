@@ -9,6 +9,7 @@ import adminusers from './admin/pages/Auth/adminUsers'
 import login from './admin/pages/Auth/login'
 import roles from './admin/pages/Auth/role'
 import assignRoles from './admin/pages/Auth/assignRole'
+import createBlog from './admin/pages/Blog/createBlog'
 
 const routes = [
     {
@@ -49,6 +50,12 @@ const routes = [
         path: '/assignRoles',
         component: assignRoles,
         name: 'assignRoles',
+    },
+
+    {
+        path: '/createBlog',
+        component: createBlog,
+        name: 'createBlog',
     },
 ]
 

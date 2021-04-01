@@ -13,6 +13,7 @@ Vue.mixin(common);
 Vue.use(VueToastify);
 Vue.use(clickaway);
 Vue.use(store);
+
 Vue.component('mainapp', require('./admin/shared/mainapp.vue').default);
 
 const app = new Vue({
