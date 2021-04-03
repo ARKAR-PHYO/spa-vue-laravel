@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('app')->middleware('adminCheck')->group(function(){
+Route::prefix('app')->middleware('adminCheck')->group(function () {
     Route::get('get_tags', [AdminController::class, 'getTags']);
     Route::post('create_tag', [AdminController::class, 'addTag']);
     Route::post('edit_tag', [AdminController::class, 'editTag']);
@@ -39,8 +39,8 @@ Route::prefix('app')->middleware('adminCheck')->group(function(){
     Route::post('delete_role', [AdminController::class, 'deleteRole']);
 
     Route::post('assignRoles', [AdminController::class, 'assignRoles']);
-
 });
+Route::post('createBlog', [AdminController::class, 'uploadEditorImage']);
 
 
 Route::get('logout', [AdminController::class, 'logout']);

@@ -3176,6 +3176,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3184,6 +3205,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
+  watch: {},
   methods: {}
 });
 
@@ -72325,35 +72347,122 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "flex items-center justify-center" }, [
+    _c("div", { staticClass: "w-full" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-row my-6 space-x-4" }, [
+        _c("div", { staticClass: "flex flex-col w-1/4 px-6 space-y-8 " }, [
+          _c(
+            "div",
+            { staticClass: "px-3 py-2 space-y-4 bg-gray-200 shadow-lg" },
+            [
+              _c("p", { staticClass: "text-lg font-medium text-center " }, [
+                _vm._v("Category")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass:
+                    "w-full p-2 overflow-hidden border border-gray-700 rounded-md focus:outline-none",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Categories",
+                    name: "categories",
+                    id: "categories"
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      staticClass: "text-gray-400",
+                      attrs: { disabled: "", selected: "" },
+                      domProps: { value: null }
+                    },
+                    [_vm._v("Select Category")]
+                  ),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Category 1" } }, [
+                    _vm._v("Category 1")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Category 2" } }, [
+                    _vm._v("Category 2")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Category 3" } }, [
+                    _vm._v("Category 3")
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "px-3 py-2 space-y-4 bg-gray-200 shadow-lg" },
+            [
+              _c("p", { staticClass: "text-lg font-medium text-center" }, [
+                _vm._v("Tag")
+              ]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  staticClass:
+                    "w-full p-2 overflow-hidden border border-gray-700 rounded-md focus:outline-none",
+                  attrs: {
+                    type: "text",
+                    placeholder: "Tags",
+                    name: "tags",
+                    id: "tags"
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      staticClass: "text-gray-400",
+                      attrs: { disabled: "", selected: "" },
+                      domProps: { value: null }
+                    },
+                    [_vm._v("Select Tag")]
+                  ),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Tag 1" } }, [
+                    _vm._v("Tag 1")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Tag 2" } }, [
+                    _vm._v("Tag 2")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "Tag 3" } }, [_vm._v("Tag 3")])
+                ]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex items-center justify-center" }, [
-      _c("div", { staticClass: "w-full" }, [
-        _c("div", { staticClass: "flex items-center space-x-4" }, [
-          _c(
-            "button",
-            {
-              staticClass:
-                "flex flex-row items-center px-5 py-2 space-x-1 text-white transform bg-blue-400 rounded-md shadow-md focus:outline-none hover:scale-105"
-            },
-            [_c("p", {}, [_vm._v("Save")])]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-6 " }, [
-          _c("h1", { staticClass: "block max-w-4xl mx-auto text-4xl" }, [
-            _c("input", {
-              staticClass: "w-full border-none focus:outline-none",
-              attrs: { type: "text", placeholder: "Title" }
-            })
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "flex items-center space-x-4" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "flex flex-row items-center px-5 py-2 space-x-1 text-white transform bg-blue-400 rounded-md shadow-md focus:outline-none hover:scale-105"
+        },
+        [_c("p", {}, [_vm._v("Save")])]
+      )
     ])
   }
 ]

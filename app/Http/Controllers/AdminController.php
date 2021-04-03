@@ -80,7 +80,7 @@ class AdminController extends Controller
     public function deleteFileFromServer($fileName, $hasFullPath = false)
     {
         if (!$hasFullPath) {
-            $filePath = public_path().'/uploads'. $fileName;
+            $filePath = public_path() . '/uploads' . $fileName;
         }
         if (file_exists($filePath)) {
             @unlink($filePath);
@@ -159,11 +159,10 @@ class AdminController extends Controller
         ];
         if ($request->password) {
             $password = Hash::make($request->password);
-            $data ['password'] = $password;
+            $data['password'] = $password;
         }
         $user = User::where('id', $request->id)->update($data);
         return $user;
-
     }
     // ADMIN USER ENDS
 
@@ -201,4 +200,14 @@ class AdminController extends Controller
         ]));
     }
     // ROLE ENDS
+
+    // EDITOR
+    public function uploadEditorImage(Request $request)
+    {
+        $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
+        $picName = time() . '.' . $request->file->extension();
+        $request->image->move(public_path('uploads'), $picName);
+        return $picName;
+    }
+    // EDITOR ENDS
 }
