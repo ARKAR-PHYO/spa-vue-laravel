@@ -30,12 +30,3 @@
         display: none;
     }
 }
-
-.editor {
-    height: 72vh;
-    @apply border border-gray-400;
-}
-.ce-block__content,
-.ce-toolbar__content {
-    @apply max-w-full;
-}

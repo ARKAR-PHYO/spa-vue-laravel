@@ -3,23 +3,13 @@
     <div class="flex items-center justify-center">
         <div class="w-full">
             <div class="flex items-center space-x-4">
+                <h1 class="flex-auto text-4xl bg-gray-500"><input type="text" placeholder="Title" class="w-full border-none focus:outline-none"></h1>
                 <button @click="save" class="flex flex-row items-center px-5 py-2 space-x-1 text-white transform bg-blue-400 rounded-md shadow-md focus:outline-none hover:scale-105">
                     <p class="">Save</p>
                 </button>
             </div>
             <div class="flex flex-row my-6">
-                <!-- <h1 class="block max-w-4xl mx-auto text-4xl bg-gray-500"><input type="text" placeholder="Title" class="w-full border-none focus:outline-none"></h1> -->
-                <div class="w-3/4 editor">
-                    <editor
-                        ref="editor"
-                        autofocus
-                        holder-id="codex-editor"
-                        save-button-id="save-button"
-                        :init-data="initData"
-                        @save="onSave"
-                        :config="config"
-                    />
-                    <!-- <editor ref="editor" @save="onSave" :config="config" :init-data="initData"/> -->
+                <div class="w-3/4">
                 </div>
 
                 <div class="flex flex-col w-1/4 px-6 space-y-8 ">
@@ -50,8 +40,6 @@
 
 <script>
 import Icon from './../../shared/Icon'
-import ImageTool from '@editorjs/image'
-import Warning from '@editorjs/warning'
 
 export default {
 
@@ -60,30 +48,7 @@ export default {
     },
     data() {
         return {
-            config: {
-                tools: {
-                    warning: {
-                        class: Warning,
-                        inlineToolbar: true,
-                        shortcut: 'CMD+SHIFT+W',
-                        config: {
-                            titlePlaceholder: 'Title',
-                            messagePlaceholder: 'Message',
-                        },
-                    },
-                    image: {
-                        class: ImageTool,
-                        config: {
-                            endpoints: {
-                                // byFile: 'http://localhost:8008/uploadFile', // Your backend file uploader endpoint
-                                // byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
-                            }
-                        }
-                    }
-                }
-			},
-            initData: null,
-            onInitialized: null,
+
         };
     },
     watch:{
@@ -91,12 +56,7 @@ export default {
     },
 
     methods: {
-        async onSave(response){
-            console.log('mentod on save', response)
-        },
-        async save(){
-            console.log('on sav9', this.$refs.editor.save());
-        },
+
     }
 };
 </script>

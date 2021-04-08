@@ -7,9 +7,6 @@ import 'view-design/dist/styles/iview.css';
 import common from './common';
 import VueToastify from "vue-toastify";
 import clickaway from 'vue-clickaway';
-import Editor from 'vue-editor-js'
-
-Vue.use(Editor)
 
 Vue.use(ViewUI);
 Vue.mixin(common);

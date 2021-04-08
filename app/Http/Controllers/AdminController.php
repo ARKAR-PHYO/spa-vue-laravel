@@ -205,8 +205,14 @@ class AdminController extends Controller
     public function uploadEditorImage(Request $request)
     {
         $request->validate(['image' => 'required|mimes:jpeg,jpg,png']);
-        $picName = time() . '.' . $request->file->extension();
+        $picName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('uploads'), $picName);
+        return response()->json([
+            'success' => 1,
+            'file' => [
+                'url' => env('APP_URL') . "/uploads/$picName"
+            ]
+        ]);
         return $picName;
     }
     // EDITOR ENDS
